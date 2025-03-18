@@ -1,0 +1,8 @@
+{
+    "mcpServer": {
+      "supabase": {
+        "type": "PostgreSQL",
+        "connectionString": "YOUR_CONNECTION_STRING_HERE"
+      }
+    }
+  }

@@ -3,11 +3,7 @@ description:
 globs: 
 alwaysApply: false
 ---
-
-# Your rule content
-Cursor AI Self-Debugging Rules for CRM App
-
-🛠️ Main Objective:
+ Main Objective:
 
 Enable Cursor AI to autonomously identify, debug, and resolve bugs or issues within the CRM application built with React + Vite + TypeScript + Tailwind CSS, React Router DOM, and Supabase.
 

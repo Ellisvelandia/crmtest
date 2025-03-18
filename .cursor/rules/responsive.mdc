@@ -1,0 +1,96 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+
+# Your rule content
+
+- You can @ files here
+- You can use markdown but dont have to
+
+Main Objective:
+
+Ensure the CRM application built with React, Vite, TypeScript, and Tailwind CSS v4 is responsive, accessible, and optimized for all devices.
+
+📱 Responsive Design Principles
+
+Key Principles
+
+Use Tailwind's utility-first classes to create responsive layouts.
+
+Implement a mobile-first design approach.
+
+Ensure consistency and clarity across all screen sizes.
+
+HTML Best Practices
+
+Utilize semantic HTML elements (<header>, <main>, <footer>, <section>, <article>, <nav>).
+
+Employ <button> for interactive elements and <a> for navigation links.
+
+Always include descriptive alt attributes for images (<img> tags).
+
+Structure forms using <form> and clearly label all inputs.
+
+Tailwind CSS v4 Guidelines
+
+Apply Tailwind utility classes consistently; avoid inline styles.
+
+Use built-in responsive modifiers (sm:, md:, lg:, xl:) effectively.
+
+Ensure touch targets are appropriately sized (minimum 48x48 px recommended).
+
+Leverage Tailwind’s responsive typography (text-sm, text-base, text-lg, etc.).
+
+Accessibility
+
+Apply ARIA roles and attributes to interactive elements.
+
+Confirm sufficient color contrast ratios (minimum 4.5:1 for normal text).
+
+Support keyboard navigation comprehensively.
+
+Clearly indicate focus states using Tailwind utilities (e.g., focus:ring, focus:border).
+
+Responsive Images
+
+Utilize responsive image techniques (srcset, sizes) for optimized loading.
+
+Consider lazy-loading images for better performance.
+
+📐 Media Queries & Breakpoints
+
+Follow Tailwind's default breakpoints:
+
+sm: ≥ 640px
+
+md: ≥ 768px
+
+lg: ≥ 1024px
+
+xl: ≥ 1280px
+
+2xl: ≥ 1536px
+
+🚀 Performance Optimization
+
+Minimize assets, including CSS and JavaScript bundle sizes.
+
+Optimize image sizes and delivery.
+
+Limit animations to essential interactions to maintain performance.
+
+✅ Testing & Validation
+
+Regularly test responsiveness on various devices (mobile, tablet, desktop).
+
+Utilize tools like Lighthouse and responsive design modes in browsers.
+
+Validate accessibility with comprehensive audits and guidelines.
+
+📖 Documentation
+
+Clearly document responsive decisions, breakpoints, and Tailwind utility choices.
+
+Maintain consistency in naming and organizing CSS and components.

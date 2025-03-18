@@ -1,0 +1,86 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+
+# Your rule content
+Cursor AI Self-Debugging Rules for CRM App
+
+🛠️ Main Objective:
+
+Enable Cursor AI to autonomously identify, debug, and resolve bugs or issues within the CRM application built with React + Vite + TypeScript + Tailwind CSS, React Router DOM, and Supabase.
+
+🚩 Issue Identification
+
+1. Console and Logs:
+
+Immediately check browser console errors and warnings.
+
+Identify clearly stated error messages or stack traces.
+
+2. Network Requests:
+
+Verify failed or delayed API calls, especially interactions with Supabase.
+
+Inspect HTTP response codes, headers, and payloads.
+
+🔍 Debugging Frontend
+
+React Components:
+
+Validate component rendering issues (state/props mismatches, loading states, and conditional rendering).
+
+Resolve TypeScript type errors immediately.
+
+Routing Issues (React Router DOM):
+
+Confirm correct route definitions.
+
+Ensure hooks (useNavigate, useParams, useLocation) are used correctly and effectively.
+
+Styling Issues (Tailwind CSS):
+
+Check Tailwind configuration (tailwind.config.js) paths.
+
+Validate classes and ensure CSS is correctly generated and applied.
+
+⚙️ Backend Integration (Supabase)
+
+Authentication and Authorization:
+
+Diagnose issues related to user sessions and permissions.
+
+Ensure proper Supabase auth method usage.
+
+Database CRUD Operations:
+
+Verify Row-Level Security (RLS) rules and table permissions.
+
+Check correct implementation of Supabase client methods.
+
+Real-Time Subscriptions:
+
+Confirm channels subscribe/unsubscribe logic.
+
+Validate real-time data integration with React state.
+
+📦 Build Configuration (Vite & TypeScript)
+
+Ensure the vite.config.ts file is correctly set up:
+
+export default defineConfig({
+  plugins: [react()],
+});
+
+Confirm TypeScript configurations (tsconfig.json) are error-free and aligned with project requirements.
+
+✅ Error Handling Best Practices
+
+Implement consistent error handling with try-catch blocks.
+
+Include descriptive error logs to quickly pinpoint issues.
+
+By following these guidelines, Cursor AI can systematically identify, debug, and autonomously resolve issues to maintain and enhance the app’s functionality.
+
+

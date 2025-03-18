@@ -67,18 +67,18 @@ export default function DashboardLayout() {
   }
 
   return (
-    <div className="flex h-screen w-screen bg-gradient-to-br from-orange-50 to-orange-200 overflow-hidden">
+    <div className="flex h-screen w-screen bg-gray-50 overflow-hidden">
       {/* Mobile header with menu button */}
-      <header className="lg:hidden fixed top-0 left-0 right-0 h-14 bg-gradient-to-r from-orange-300 to-orange-200 z-40 border-b border-orange-200 px-4 flex items-center shadow-sm">
+      <header className="lg:hidden fixed top-0 left-0 right-0 h-14 bg-white z-40 border-b border-gray-100 px-4 flex items-center shadow-sm">
         <button
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-          className="p-2 rounded-md hover:bg-white/20 transition-colors mr-3"
+          className="p-2 rounded-md hover:bg-gray-100 transition-colors mr-3"
           aria-label={isSidebarOpen ? "Cerrar menú" : "Abrir menú"}
         >
-          <Icons.menu className="h-5 w-5 text-gray-800" />
+          <Icons.menu className="h-5 w-5 text-gray-500" />
         </button>
         <div className="flex items-center">
-          <div className="w-6 h-6 bg-black rounded-full flex items-center justify-center mr-2.5">
+          <div className="w-6 h-6 bg-gray-800 rounded-full flex items-center justify-center mr-2.5">
             <Icons.sparkles className="h-3.5 w-3.5 text-white" />
           </div>
           <h1 className="text-base font-semibold text-gray-800">JOYERÍA EL ZAFIRO</h1>
@@ -88,7 +88,7 @@ export default function DashboardLayout() {
       {/* Overlay for mobile sidebar */}
       {isSidebarOpen && (
         <div 
-          className="fixed inset-0 bg-black bg-opacity-20 z-40 lg:hidden"
+          className="fixed inset-0 bg-black bg-opacity-10 z-40 lg:hidden"
           onClick={() => setIsSidebarOpen(false)}
           aria-hidden="true"
         />
@@ -96,14 +96,14 @@ export default function DashboardLayout() {
 
       {/* Sidebar */}
       <aside className={cn(
-        "fixed lg:static inset-y-0 left-0 z-50 w-[260px] md:w-[280px] bg-gradient-to-b from-orange-200 to-orange-100 transform transition-transform duration-200 ease-in-out lg:transform-none shadow-md",
+        "fixed lg:static inset-y-0 left-0 z-50 w-[260px] md:w-[280px] bg-white transform transition-transform duration-200 ease-in-out lg:transform-none shadow-sm",
         isSidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
       )}>
         <div className="h-full flex flex-col">
           {/* Logo - Hidden on mobile since we show it in the header */}
-          <div className="py-6 px-6 border-b border-orange-200 hidden lg:block">
+          <div className="py-6 px-6 border-b border-gray-100 hidden lg:block">
             <div className="flex items-center">
-              <div className="w-8 h-8 bg-black rounded-full flex items-center justify-center mr-3">
+              <div className="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center mr-3">
                 <Icons.sparkles className="h-4 w-4 text-white" />
               </div>
               <h1 className="text-lg text-gray-800 font-semibold">JOYERÍA EL ZAFIRO</h1>
@@ -112,7 +112,7 @@ export default function DashboardLayout() {
 
           {/* Section label */}
           <div className="px-6 pt-6 pb-2">
-            <p className="text-xs uppercase tracking-wider text-gray-500 font-medium">MAIN</p>
+            <p className="text-xs uppercase tracking-wider text-gray-400 font-medium">MAIN</p>
           </div>
 
           {/* Navigation */}
@@ -125,8 +125,8 @@ export default function DashboardLayout() {
                   className={cn(
                     "w-full justify-start h-10 rounded-md px-3 mb-1",
                     isActive(link.path) 
-                      ? "bg-white text-gray-800 hover:bg-white/90 shadow-sm" 
-                      : "text-gray-700 hover:bg-white/50 hover:text-gray-900"
+                      ? "bg-gray-100 text-gray-800 hover:bg-gray-200" 
+                      : "text-gray-600 hover:bg-gray-50 hover:text-gray-800"
                   )}
                   onClick={() => {
                     if (window.innerWidth < 1024) setIsSidebarOpen(false)
@@ -160,10 +160,10 @@ export default function DashboardLayout() {
             </nav>
             
             {/* Account and Logout Section */}
-            <div className="px-3 mt-auto pb-6 border-t border-orange-200 pt-4">
+            <div className="px-3 mt-auto pb-6 border-t border-gray-100 pt-4">
               <Button 
                 variant="ghost" 
-                className="w-full justify-start text-gray-700 hover:bg-white/50 hover:text-gray-900 rounded-md h-10" 
+                className="w-full justify-start text-gray-600 hover:bg-gray-50 hover:text-gray-800 rounded-md h-10" 
                 onClick={handleLogout}
                 disabled={isLoading}
               >

@@ -84,21 +84,21 @@ export const ClientSearch: FC<ClientSearchProps> = ({
                 onValueChange={setSearchField}
               >
                 <SelectTrigger className="h-10 bg-white border border-gray-200 hover:border-emerald-100 shadow-sm text-sm rounded-md">
-                  <SelectValue placeholder="Search by" />
+                  <SelectValue placeholder="Buscar por" />
                 </SelectTrigger>
                 <SelectContent className="bg-white border border-gray-200 shadow-sm rounded-md min-w-[200px]">
                   <div className="p-1 space-y-1">
                     <SelectItem value="customer_id" className="rounded py-1.5 px-2 text-sm cursor-pointer hover:bg-emerald-50 focus:bg-emerald-50">
-                      Customer ID
+                      ID de Cliente
                     </SelectItem>
                     <SelectItem value="name" className="rounded py-1.5 px-2 text-sm cursor-pointer hover:bg-emerald-50 focus:bg-emerald-50">
-                      Name
+                      Nombre
                     </SelectItem>
                     <SelectItem value="email" className="rounded py-1.5 px-2 text-sm cursor-pointer hover:bg-emerald-50 focus:bg-emerald-50">
-                      Email
+                      Correo Electrónico
                     </SelectItem>
                     <SelectItem value="phone" className="rounded py-1.5 px-2 text-sm cursor-pointer hover:bg-emerald-50 focus:bg-emerald-50">
-                      Phone
+                      Teléfono
                     </SelectItem>
                   </div>
                 </SelectContent>
@@ -108,7 +108,10 @@ export const ClientSearch: FC<ClientSearchProps> = ({
               <Input
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder={`Search by ${searchField.replace('_', ' ')}...`}
+                placeholder={`Buscar por ${searchField === 'customer_id' ? 'ID de cliente' : 
+                  searchField === 'name' ? 'nombre' : 
+                  searchField === 'email' ? 'correo electrónico' : 
+                  'teléfono'}...`}
                 className="w-full h-10 pl-10 bg-white border border-gray-200 hover:border-emerald-100 shadow-sm text-sm rounded-md focus-visible:ring-1 focus-visible:ring-emerald-500 focus-visible:border-emerald-500"
               />
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
@@ -124,12 +127,12 @@ export const ClientSearch: FC<ClientSearchProps> = ({
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>
-                  Searching...
+                  Buscando...
                 </span>
               ) : (
                 <span className="flex items-center justify-center">
                   <Search className="mr-2 h-4 w-4" />
-                  Search
+                  Buscar
                 </span>
               )}
             </Button>
@@ -157,7 +160,7 @@ export const ClientSearch: FC<ClientSearchProps> = ({
         <div className="border-t border-gray-200">
           <div className="px-6 py-4 bg-emerald-50/50 border-b border-gray-200">
             <h3 className="text-sm font-medium text-gray-900">
-              Search Results <span className="text-emerald-600 font-normal">({clients.length})</span>
+              Resultados de Búsqueda <span className="text-emerald-600 font-normal">({clients.length})</span>
             </h3>
           </div>
           <div className="divide-y divide-gray-200">
@@ -188,7 +191,7 @@ export const ClientSearch: FC<ClientSearchProps> = ({
                       className="ml-4 flex-shrink-0 flex items-center text-sm text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50 rounded-md px-3 py-1.5 transition-colors"
                     >
                       <Eye className="h-4 w-4 mr-1.5" />
-                      View
+                      Ver
                     </button>
                   )}
                 </div>
@@ -204,10 +207,10 @@ export const ClientSearch: FC<ClientSearchProps> = ({
             <Search className="h-6 w-6 text-emerald-400" />
           </div>
           <h3 className="text-sm font-medium text-gray-900 mb-1">
-            No Results Found
+            No Se Encontraron Resultados
           </h3>
           <p className="text-sm text-emerald-600">
-            Try adjusting your search criteria
+            Intenta ajustar tus criterios de búsqueda
           </p>
         </div>
       )}

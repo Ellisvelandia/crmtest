@@ -10,7 +10,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '../../../components/ui/select'
+} from '../../ui/select'
 import { supabase } from '../../../lib/supabase/config'
 
 interface ClientSearchProps {
@@ -225,13 +225,15 @@ export const ClientSearch: FC<ClientSearchProps> = ({
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right">
-                      <button
-                        onClick={() => handleQuickAccess(client)}
-                        className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-indigo-600 hover:text-white hover:bg-indigo-600 transition-all duration-200"
-                      >
-                        <Eye className="h-4 w-4 mr-2" />
-                        View Details
-                      </button>
+                      {showQuickAccess && (
+                        <button
+                          onClick={() => handleQuickAccess(client)}
+                          className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-indigo-600 hover:text-white hover:bg-indigo-600 transition-all duration-200"
+                        >
+                          <Eye className="h-4 w-4 mr-2" />
+                          View Details
+                        </button>
+                      )}
                     </td>
                   </tr>
                 ))}

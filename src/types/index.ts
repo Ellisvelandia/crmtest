@@ -9,16 +9,16 @@ export interface User {
 
 // Client related types
 export interface Client {
-  id: string
+  id: string // UUID
   customer_id: string
   first_name: string
   last_name: string
   email: string
   phone: string
-  date_of_birth: string
+  date_of_birth: Date
   address: string
-  created_at: string
-  updated_at: string
+  created_at: Date
+  updated_at: Date
 }
 
 // Product related types

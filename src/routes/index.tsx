@@ -2,6 +2,7 @@ import { createBrowserRouter, Navigate } from 'react-router-dom'
 import DashboardLayout from '../components/layout/DashboardLayout'
 import DashboardPage from '../pages/dashboard'
 import ClientsPage from '../pages/clients'
+import NewClientPage from '../pages/clients/new'
 import ClientDetailsPage from '../pages/clients/[id]'
 import ProductsPage from '../pages/products'
 import SalesPage from '../pages/sales'
@@ -52,6 +53,10 @@ export const router = createBrowserRouter([
           {
             index: true,
             element: <ClientsPage />
+          },
+          {
+            path: 'new',
+            element: <NewClientPage />
           },
           {
             path: ':id',

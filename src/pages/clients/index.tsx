@@ -71,8 +71,9 @@ const ClientsPage = () => {
         <div className="flex gap-4">
           <Link
             to="/clients/new"
-            className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+            className="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
           >
+            <span className="mr-2">+</span>
             Add New Client
           </Link>
           <button

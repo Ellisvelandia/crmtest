@@ -154,7 +154,7 @@ const ClientDetailsPage = () => {
               <input
                 type="date"
                 name="date_of_birth"
-                value={formData.date_of_birth?.split('T')[0] || ''}
+                value={formData.date_of_birth instanceof Date ? formData.date_of_birth.toISOString().split('T')[0] : ''}
                 onChange={handleInputChange}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
               />

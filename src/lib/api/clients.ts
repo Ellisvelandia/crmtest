@@ -9,10 +9,10 @@ export const clientsApi = {
         .from('clients')
         .select('*')
         .eq('customer_id', customerId)
-        .single()
+        .limit(1)
 
       if (error) throw error
-      return data
+      return data?.[0] || null
     } catch (error) {
       throw new Error(handleSupabaseError(error))
     }

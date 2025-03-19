@@ -12,6 +12,7 @@ import {
   SelectValue,
 } from '../../ui/select'
 import { supabase } from '../../../lib/supabase/config'
+import { UserIcon, TextIcon, MailIcon, PhoneIcon, SearchIcon } from 'lucide-react'
 
 interface ClientSearchProps {
   onClientFound?: (client: Client) => void
@@ -82,23 +83,86 @@ export const ClientSearch: FC<ClientSearchProps> = ({
               <Select
                 value={searchField}
                 onValueChange={setSearchField}
+                defaultValue="name"
               >
-                <SelectTrigger className="h-10 bg-white border border-gray-200 hover:border-emerald-100 shadow-sm text-sm rounded-md">
-                  <SelectValue placeholder="Buscar por" />
+                <SelectTrigger 
+                  className="relative h-10 w-full bg-white border border-gray-200 
+                    hover:border-emerald-500 hover:ring-1 hover:ring-emerald-100
+                    focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500
+                    shadow-sm text-sm rounded-md transition-all duration-200
+                    data-[placeholder]:text-gray-500"
+                  aria-label="Select search field"
+                >
+                  <div className="flex items-center gap-2">
+                    <SearchIcon className="h-4 w-4 text-gray-500" />
+                    <SelectValue 
+                      placeholder="Search by" 
+                      className="text-gray-700"
+                    />
+                  </div>
                 </SelectTrigger>
-                <SelectContent className="bg-white border border-gray-200 shadow-sm rounded-md min-w-[200px]">
-                  <div className="p-1 space-y-1">
-                    <SelectItem value="customer_id" className="rounded py-1.5 px-2 text-sm cursor-pointer hover:bg-emerald-50 focus:bg-emerald-50">
-                      ID de Cliente
+                <SelectContent 
+                  className="bg-white border border-gray-200 shadow-lg rounded-md 
+                    min-w-[200px] animate-in fade-in-0 zoom-in-95"
+                  position="popper"
+                  sideOffset={4}
+                >
+                  <div 
+                    className="p-1 space-y-0.5" 
+                    role="listbox" 
+                    aria-label="Search field options"
+                  >
+                    <SelectItem 
+                      value="customer_id" 
+                      className="rounded-md py-2 px-3 text-sm cursor-pointer
+                        hover:bg-emerald-50 hover:text-emerald-700
+                        focus:bg-emerald-50 focus:text-emerald-700
+                        data-[state=checked]:bg-emerald-50 data-[state=checked]:text-emerald-700
+                        transition-colors duration-150"
+                    >
+                      <div className="flex items-center gap-2">
+                        <UserIcon className="h-4 w-4" />
+                        <span>Client ID</span>
+                      </div>
                     </SelectItem>
-                    <SelectItem value="name" className="rounded py-1.5 px-2 text-sm cursor-pointer hover:bg-emerald-50 focus:bg-emerald-50">
-                      Nombre
+                    <SelectItem 
+                      value="name" 
+                      className="rounded-md py-2 px-3 text-sm cursor-pointer
+                        hover:bg-emerald-50 hover:text-emerald-700
+                        focus:bg-emerald-50 focus:text-emerald-700
+                        data-[state=checked]:bg-emerald-50 data-[state=checked]:text-emerald-700
+                        transition-colors duration-150"
+                    >
+                      <div className="flex items-center gap-2">
+                        <TextIcon className="h-4 w-4" />
+                        <span>Name</span>
+                      </div>
                     </SelectItem>
-                    <SelectItem value="email" className="rounded py-1.5 px-2 text-sm cursor-pointer hover:bg-emerald-50 focus:bg-emerald-50">
-                      Correo Electrónico
+                    <SelectItem 
+                      value="email" 
+                      className="rounded-md py-2 px-3 text-sm cursor-pointer
+                        hover:bg-emerald-50 hover:text-emerald-700
+                        focus:bg-emerald-50 focus:text-emerald-700
+                        data-[state=checked]:bg-emerald-50 data-[state=checked]:text-emerald-700
+                        transition-colors duration-150"
+                    >
+                      <div className="flex items-center gap-2">
+                        <MailIcon className="h-4 w-4" />
+                        <span>Email</span>
+                      </div>
                     </SelectItem>
-                    <SelectItem value="phone" className="rounded py-1.5 px-2 text-sm cursor-pointer hover:bg-emerald-50 focus:bg-emerald-50">
-                      Teléfono
+                    <SelectItem 
+                      value="phone" 
+                      className="rounded-md py-2 px-3 text-sm cursor-pointer
+                        hover:bg-emerald-50 hover:text-emerald-700
+                        focus:bg-emerald-50 focus:text-emerald-700
+                        data-[state=checked]:bg-emerald-50 data-[state=checked]:text-emerald-700
+                        transition-colors duration-150"
+                    >
+                      <div className="flex items-center gap-2">
+                        <PhoneIcon className="h-4 w-4" />
+                        <span>Phone</span>
+                      </div>
                     </SelectItem>
                   </div>
                 </SelectContent>

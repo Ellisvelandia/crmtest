@@ -1,8 +1,8 @@
 {
-    "mcpServer": {
-      "supabase": {
-        "type": "PostgreSQL",
-        "connectionString": "YOUR_CONNECTION_STRING_HERE"
-      }
+  "mcpServers": {
+    "supabase": {
+      "command": "cmd",
+      "args": ["/c", "npx", "-y", "@modelcontextprotocol/server-postgres", "postgresql://postgres.kyvojzhfbfigmnsrecqu:plomo619ellisdb@aws-0-us-west-1.pooler.supabase.com:6543/postgres?pgbouncer=true&connection_limit=1"]
     }
   }
+}

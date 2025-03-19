@@ -3,88 +3,261 @@ description:
 globs: 
 alwaysApply: true
 ---
-Main Objective:
+# Responsive Design Guidelines
+Core Responsive Design Principles
 
-Ensure the CRM application built with React, Vite, TypeScript, and Tailwind CSS v4 is responsive, accessible, and optimized for all devices.
+### Breakpoint System
+```typescript
+const breakpoints = {
+  'xs': '320px',  // Small phones
+  'sm': '640px',  // Mobile landscape
+  'md': '768px',  // Tablets
+  'lg': '1024px', // Laptops
+  'xl': '1280px', // Desktops
+  '2xl': '1536px' // Large screens
+}
+```
 
-📱 Responsive Design Principles
+### Mobile-First Implementation
+- Start with smallest viewport design
+- Progressive enhancement using Tailwind modifiers
+- Maintain content hierarchy across breakpoints
 
-Key Principles
+Example:
+```html
+<div class="
+  grid
+  grid-cols-1          /* Mobile: Single column */
+  sm:grid-cols-2      /* Tablet: Two columns */
+  lg:grid-cols-3      /* Desktop: Three columns */
+  gap-4               /* Consistent spacing */
+  p-4 sm:p-6 lg:p-8  /* Responsive padding */
+">
+```
 
-Use Tailwind's utility-first classes to create responsive layouts.
+## 🎨 Layout Patterns
 
-Implement a mobile-first design approach.
+### Flexible Grids
+```html
+<!-- Responsive Grid Layout -->
+<div class="
+  grid
+  grid-cols-1
+  sm:grid-cols-2
+  lg:grid-cols-4
+  gap-4
+">
+  <div class="aspect-square bg-gray-100"></div>
+  <!-- Repeat for other grid items -->
+</div>
+```
 
-Ensure consistency and clarity across all screen sizes.
+### Responsive Typography
+```html
+<!-- Responsive Text Sizing -->
+<h1 class="
+  text-2xl        /* Mobile base size */
+  sm:text-3xl     /* Tablet size */
+  lg:text-4xl     /* Desktop size */
+  font-bold
+  leading-tight
+">
+```
 
-HTML Best Practices
+### Flexible Images
+```html
+<!-- Responsive Image -->
+<div class="
+  aspect-video    /* Maintain aspect ratio */
+  w-full
+  overflow-hidden
+">
+  <img 
+    class="w-full h-full object-cover"
+    src="/image.jpg"
+    alt="Description"
+    loading="lazy"
+  />
+</div>
+```
 
-Utilize semantic HTML elements (<header>, <main>, <footer>, <section>, <article>, <nav>).
+## 📐 Component Architecture
 
-Employ <button> for interactive elements and <a> for navigation links.
+### Card Components
+```html
+<div class="
+  flex
+  flex-col
+  p-4 sm:p-6
+  gap-4
+  rounded-lg
+  shadow-sm
+  hover:shadow-md
+  transition-shadow
+  bg-white
+">
+  <h3 class="text-lg sm:text-xl font-semibold">Title</h3>
+  <p class="text-sm sm:text-base">Content</p>
+</div>
+```
 
-Always include descriptive alt attributes for images (<img> tags).
+### Navigation Patterns
+```html
+<!-- Responsive Navigation -->
+<nav class="
+  fixed top-0 w-full
+  bg-white
+  shadow-sm
+">
+  <!-- Mobile Menu Button -->
+  <button class="block lg:hidden p-4">
+    <span class="sr-only">Open menu</span>
+    <!-- Menu icon -->
+  </button>
+  
+  <!-- Desktop Navigation -->
+  <div class="
+    hidden
+    lg:flex
+    items-center
+    gap-6
+    p-4
+  ">
+    <!-- Nav items -->
+  </div>
+</nav>
+```
 
-Structure forms using <form> and clearly label all inputs.
+## 🎯 Best Practices
 
-Tailwind CSS v4 Guidelines
+### Container Patterns
+```html
+<!-- Responsive Container -->
+<div class="
+  mx-auto
+  w-full
+  max-w-7xl
+  px-4 sm:px-6 lg:px-8
+">
+  <!-- Content -->
+</div>
+```
 
-Apply Tailwind utility classes consistently; avoid inline styles.
+### Form Elements
+```html
+<!-- Responsive Form -->
+<form class="
+  space-y-4
+  w-full
+  max-w-md
+  mx-auto
+  p-4 sm:p-6
+">
+  <input 
+    class="
+      w-full
+      p-2 sm:p-3
+      text-base sm:text-lg
+      rounded-lg
+      border border-gray-300
+      focus:ring-2 focus:ring-blue-500
+    "
+    type="text"
+  />
+</form>
+```
 
-Use built-in responsive modifiers (sm:, md:, lg:, xl:) effectively.
+## 🔍 Testing Requirements
 
-Ensure touch targets are appropriately sized (minimum 48x48 px recommended).
+### Viewport Testing
+- Test on actual devices when possible
+- Use Chrome DevTools device emulation
+- Verify common breakpoints:
+  - 320px (Small mobile)
+  - 375px (Modern mobile)
+  - 768px (Tablet)
+  - 1024px (Laptop)
+  - 1440px (Desktop)
 
-Leverage Tailwind’s responsive typography (text-sm, text-base, text-lg, etc.).
+### Interactive Elements
+- Minimum touch target size: 44x44px
+- Clear hover/focus states
+- Adequate spacing between clickable elements
 
-Accessibility
+## 📱 Device-Specific Considerations
 
-Apply ARIA roles and attributes to interactive elements.
+### Mobile Optimization
+- Optimize tap targets
+- Implement touch-friendly interfaces
+- Consider thumb zones for navigation
+- Use appropriate font sizes (minimum 16px)
 
-Confirm sufficient color contrast ratios (minimum 4.5:1 for normal text).
+### Tablet Considerations
+- Optimize for both portrait and landscape
+- Consider split-screen usage
+- Implement appropriate padding/margins
 
-Support keyboard navigation comprehensively.
+### Desktop Enhancements
+- Utilize hover states
+- Implement more complex layouts
+- Consider widescreen optimizations
 
-Clearly indicate focus states using Tailwind utilities (e.g., focus:ring, focus:border).
+## 🎨 Visual Hierarchy
 
-Responsive Images
+### Spacing Scale
+```typescript
+const spacing = {
+  '0': '0',
+  '1': '0.25rem',
+  '2': '0.5rem',
+  '3': '0.75rem',
+  '4': '1rem',
+  '6': '1.5rem',
+  '8': '2rem',
+  '12': '3rem',
+  '16': '4rem',
+}
+```
 
-Utilize responsive image techniques (srcset, sizes) for optimized loading.
+### Typography Scale
+```typescript
+const typography = {
+  xs: ['0.75rem', '1rem'],     // 12px
+  sm: ['0.875rem', '1.25rem'], // 14px
+  base: ['1rem', '1.5rem'],    // 16px
+  lg: ['1.125rem', '1.75rem'], // 18px
+  xl: ['1.25rem', '1.75rem'],  // 20px
+  '2xl': ['1.5rem', '2rem'],   // 24px
+  '3xl': ['1.875rem', '2.25rem'], // 30px
+}
+```
 
-Consider lazy-loading images for better performance.
+## 🔧 Performance Considerations
 
-📐 Media Queries & Breakpoints
+### Image Optimization
+- Use responsive images with srcset
+- Implement lazy loading
+- Optimize image formats (WebP)
+- Consider art direction with picture element
 
-Follow Tailwind's default breakpoints:
+### CSS Best Practices
+- Minimize CSS bundle size
+- Use CSS containment where appropriate
+- Implement will-change for animations
+- Avoid layout thrashing
 
-sm: ≥ 640px
+## 📝 Documentation Requirements
 
-md: ≥ 768px
+### Component Documentation
+- Document responsive behavior
+- Include breakpoint examples
+- Provide usage guidelines
+- List known limitations
 
-lg: ≥ 1024px
+### Maintenance Guidelines
+- Regular responsive testing
+- Performance monitoring
+- Accessibility verification
+- Browser compatibility checks
 
-xl: ≥ 1280px
-
-2xl: ≥ 1536px
-
-🚀 Performance Optimization
-
-Minimize assets, including CSS and JavaScript bundle sizes.
-
-Optimize image sizes and delivery.
-
-Limit animations to essential interactions to maintain performance.
-
-✅ Testing & Validation
-
-Regularly test responsiveness on various devices (mobile, tablet, desktop).
-
-Utilize tools like Lighthouse and responsive design modes in browsers.
-
-Validate accessibility with comprehensive audits and guidelines.
-
-📖 Documentation
-
-Clearly document responsive decisions, breakpoints, and Tailwind utility choices.
-
-Maintain consistency in naming and organizing CSS and components.
+This enhanced version provides more concrete examples, specific patterns, and detailed guidelines for implementing responsive design across different device sizes and contexts.

@@ -3,12 +3,6 @@ description:
 globs: 
 alwaysApply: true
 ---
----
-description: 
-globs: 
-alwaysApply: true
----
-
 ## Sequential Thinking
 - Use **Sequential Thinking MCP** for debugging, troubleshooting, complex problem-solving, and detailed project planning.
 - Avoid excessive recursive calls; trigger intelligently only when new progress or significant information is possible.

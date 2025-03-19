@@ -22,6 +22,19 @@ node_modules
 .env.production.local
 .env*.local
 
+# Sensitive Documentation
+docs/supabase.md
+docs/TASKS.md
+docs/CONTEXT.md
+docs/*.md
+
+# Cursor and MCP Configuration
+.cursor/
+.cursor/*
+**/.cursor/**
+*.mcp.json
+mcp.json
+
 # Logs
 logs
 *.log

@@ -67,18 +67,18 @@ export default function DashboardLayout() {
   }
 
   return (
-    <div className="flex h-screen w-screen bg-gray-50 overflow-hidden">
+    <div className="flex h-screen w-screen bg-[#f8fafc] overflow-hidden">
       {/* Mobile header with menu button */}
-      <header className="lg:hidden fixed top-0 left-0 right-0 h-14 bg-white z-40 border-b border-gray-100 px-4 flex items-center shadow-sm">
+      <header className="lg:hidden fixed top-0 left-0 right-0 h-14 bg-white z-40 border-b border-emerald-100 px-4 flex items-center shadow-sm">
         <button
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-          className="p-2 rounded-md hover:bg-gray-100 transition-colors mr-3"
+          className="p-2 rounded-md hover:bg-emerald-50 transition-colors mr-3"
           aria-label={isSidebarOpen ? "Cerrar menú" : "Abrir menú"}
         >
-          <Icons.menu className="h-5 w-5 text-gray-500" />
+          <Icons.menu className="h-5 w-5 text-emerald-600" />
         </button>
         <div className="flex items-center">
-          <div className="w-6 h-6 bg-gray-800 rounded-full flex items-center justify-center mr-2.5">
+          <div className="w-6 h-6 bg-emerald-600 rounded-full flex items-center justify-center mr-2.5">
             <Icons.sparkles className="h-3.5 w-3.5 text-white" />
           </div>
           <h1 className="text-base font-semibold text-gray-800">JOYERÍA EL ZAFIRO</h1>
@@ -88,7 +88,7 @@ export default function DashboardLayout() {
       {/* Overlay for mobile sidebar */}
       {isSidebarOpen && (
         <div 
-          className="fixed inset-0 bg-black bg-opacity-10 z-40 lg:hidden"
+          className="fixed inset-0 bg-emerald-900/10 z-40 lg:hidden"
           onClick={() => setIsSidebarOpen(false)}
           aria-hidden="true"
         />
@@ -101,9 +101,9 @@ export default function DashboardLayout() {
       )}>
         <div className="h-full flex flex-col">
           {/* Logo - Hidden on mobile since we show it in the header */}
-          <div className="py-6 px-6 border-b border-gray-100 hidden lg:block">
+          <div className="py-6 px-6 border-b border-emerald-100 hidden lg:block">
             <div className="flex items-center">
-              <div className="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center mr-3">
+              <div className="w-8 h-8 bg-emerald-600 rounded-full flex items-center justify-center mr-3">
                 <Icons.sparkles className="h-4 w-4 text-white" />
               </div>
               <h1 className="text-lg text-gray-800 font-semibold">JOYERÍA EL ZAFIRO</h1>
@@ -112,21 +112,21 @@ export default function DashboardLayout() {
 
           {/* Section label */}
           <div className="px-6 pt-6 pb-2">
-            <p className="text-xs uppercase tracking-wider text-gray-400 font-medium">MAIN</p>
+            <p className="text-xs uppercase tracking-wider text-emerald-600 font-medium">MAIN</p>
           </div>
 
           {/* Navigation */}
           <div className="flex-1 flex flex-col justify-between overflow-y-auto py-2">
-            <nav className="px-3 space-y-0.5">
+            <nav className="px-3 space-y-2">
               {sidebarLinks.map((link) => (
                 <Button 
                   key={link.path}
                   variant="ghost" 
                   className={cn(
-                    "w-full justify-start h-10 rounded-md px-3 mb-1",
+                    "w-full justify-start h-11 rounded-md px-3",
                     isActive(link.path) 
-                      ? "bg-gray-100 text-gray-800 hover:bg-gray-200" 
-                      : "text-gray-600 hover:bg-gray-50 hover:text-gray-800"
+                      ? "bg-emerald-50 text-emerald-700 hover:bg-emerald-100" 
+                      : "text-gray-600 hover:bg-emerald-50/50 hover:text-emerald-700"
                   )}
                   onClick={() => {
                     if (window.innerWidth < 1024) setIsSidebarOpen(false)
@@ -134,8 +134,11 @@ export default function DashboardLayout() {
                   asChild
                 >
                   <Link to={link.path} className="flex items-center">
-                    <link.icon className="h-5 w-5 mr-3 flex-shrink-0" />
-                    <span>{link.label}</span>
+                    <link.icon className={cn(
+                      "h-5 w-5 mr-3 flex-shrink-0",
+                      isActive(link.path as string) ? "text-emerald-600" : "text-gray-400 group-hover:text-emerald-600"
+                    )} />
+                    <span className="text-sm">{link.label}</span>
                     {isActive(link.path) && (
                       <div className="ml-auto">
                         <svg 
@@ -148,7 +151,7 @@ export default function DashboardLayout() {
                           strokeWidth="2" 
                           strokeLinecap="round" 
                           strokeLinejoin="round" 
-                          className="text-gray-400"
+                          className="text-emerald-500"
                         >
                           <path d="m9 18 6-6-6-6"/>
                         </svg>
@@ -160,10 +163,10 @@ export default function DashboardLayout() {
             </nav>
             
             {/* Account and Logout Section */}
-            <div className="px-3 mt-auto pb-6 border-t border-gray-100 pt-4">
+            <div className="px-3 mt-auto pb-6 border-t border-emerald-100 pt-4">
               <Button 
                 variant="ghost" 
-                className="w-full justify-start text-gray-600 hover:bg-gray-50 hover:text-gray-800 rounded-md h-10" 
+                className="w-full justify-start text-gray-600 hover:bg-emerald-50/50 hover:text-emerald-700 rounded-md h-10" 
                 onClick={handleLogout}
                 disabled={isLoading}
               >
@@ -179,6 +182,7 @@ export default function DashboardLayout() {
       {/* Main Content */}
       <main className="flex-1 overflow-y-auto relative">
         <div className="p-6 sm:p-8 mt-14 lg:mt-0">
+          <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-emerald-50/50 to-transparent pointer-events-none" />
           <Outlet />
         </div>
       </main>

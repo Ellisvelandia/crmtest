@@ -29,7 +29,7 @@ export default function NewClientPage() {
       }
 
       if (existingClients && existingClients.length > 0) {
-        throw new Error('A client with this Customer ID already exists')
+        throw new Error('Ya existe un cliente con este ID')
       }
 
       // Format the date to match PostgreSQL date format
@@ -46,19 +46,19 @@ export default function NewClientPage() {
         .single()
 
       if (insertError) {
-        console.error('Insert error:', insertError)
+        console.error('Error de inserción:', insertError)
         throw new Error(handleSupabaseError(insertError))
       }
 
       if (!newClient) {
-        throw new Error('Failed to create client - no data returned')
+        throw new Error('Error al crear el cliente - no se devolvieron datos')
       }
 
-      toast.success('Client created successfully!')
+      toast.success('¡Cliente creado exitosamente!')
       navigate('/clients')
     } catch (error) {
-      console.error('Client creation error:', error)
-      const message = error instanceof Error ? error.message : 'Failed to create client'
+      console.error('Error al crear el cliente:', error)
+      const message = error instanceof Error ? error.message : 'Error al crear el cliente'
       toast.error(message)
       throw error
     } finally {
@@ -71,20 +71,20 @@ export default function NewClientPage() {
       <div className="max-w-3xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-2xl font-semibold text-gray-900">Register New Client</h1>
-            <p className="mt-1 text-sm text-emerald-600">Add a new client to the system</p>
+            <h1 className="text-2xl font-semibold text-gray-900">Registrar Nuevo Cliente</h1>
+            <p className="mt-1 text-sm text-emerald-600">Agregar un nuevo cliente al sistema</p>
           </div>
           <button
             onClick={() => navigate('/clients')}
             className="inline-flex items-center px-4 py-2 text-sm font-medium text-emerald-700 hover:text-emerald-800 hover:bg-emerald-50 rounded-md transition-colors"
           >
-            ← Back to Clients
+            ← Volver a Clientes
           </button>
         </div>
         <div className="bg-white shadow-lg rounded-xl border border-emerald-100">
           <div className="px-6 py-4 border-b border-emerald-100 bg-emerald-50/50">
-            <h2 className="text-lg font-medium text-gray-900">Client Information</h2>
-            <p className="mt-1 text-sm text-emerald-600">Fill in the details below to register a new client</p>
+            <h2 className="text-lg font-medium text-gray-900">Información del Cliente</h2>
+            <p className="mt-1 text-sm text-emerald-600">Complete los detalles a continuación para registrar un nuevo cliente</p>
           </div>
           <div className="p-6">
             <ClientRegistrationForm onSubmit={handleSubmit} />

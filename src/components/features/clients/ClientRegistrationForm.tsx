@@ -19,26 +19,26 @@ import { Client } from '../../../types'
 // Form validation schema
 const clientSchema = z.object({
   customer_id: z.string()
-    .min(1, 'Customer ID is required')
-    .regex(/^[A-Z0-9]+$/, 'Customer ID must contain only uppercase letters and numbers'),
+    .min(1, 'El ID de cliente es requerido')
+    .regex(/^[A-Z0-9]+$/, 'El ID de cliente solo debe contener letras mayúsculas y números'),
   first_name: z.string()
-    .min(1, 'First name is required')
-    .max(50, 'First name must be less than 50 characters')
-    .regex(/^[a-zA-Z\s'-]+$/, 'First name can only contain letters, spaces, hyphens and apostrophes'),
+    .min(1, 'El nombre es requerido')
+    .max(50, 'El nombre debe tener menos de 50 caracteres')
+    .regex(/^[a-zA-Z\s'-]+$/, 'El nombre solo puede contener letras, espacios, guiones y apóstrofes'),
   last_name: z.string()
-    .min(1, 'Last name is required')
-    .max(50, 'Last name must be less than 50 characters')
-    .regex(/^[a-zA-Z\s'-]+$/, 'Last name can only contain letters, spaces, hyphens and apostrophes'),
+    .min(1, 'El apellido es requerido')
+    .max(50, 'El apellido debe tener menos de 50 caracteres')
+    .regex(/^[a-zA-Z\s'-]+$/, 'El apellido solo puede contener letras, espacios, guiones y apóstrofes'),
   email: z.string()
-    .email('Invalid email address')
-    .min(1, 'Email is required')
-    .max(255, 'Email must be less than 255 characters'),
+    .email('Dirección de correo electrónico inválida')
+    .min(1, 'El correo electrónico es requerido')
+    .max(255, 'El correo electrónico debe tener menos de 255 caracteres'),
   phone: z.string()
-    .min(10, 'Phone number must be at least 10 digits')
-    .max(20, 'Phone number must be less than 20 digits')
-    .regex(/^\+?[0-9]+$/, 'Invalid phone number'),
+    .min(10, 'El número de teléfono debe tener al menos 10 dígitos')
+    .max(20, 'El número de teléfono debe tener menos de 20 dígitos')
+    .regex(/^\+?[0-9]+$/, 'Número de teléfono inválido'),
   date_of_birth: z.string()
-    .min(1, 'Date of birth is required')
+    .min(1, 'La fecha de nacimiento es requerida')
     .refine((date) => {
       const today = new Date()
       const dob = new Date(date)
@@ -48,10 +48,10 @@ const clientSchema = z.object({
         age--
       }
       return age >= 18
-    }, 'Client must be at least 18 years old'),
+    }, 'El cliente debe tener al menos 18 años'),
   address: z.string()
-    .min(1, 'Address is required')
-    .max(200, 'Address must be less than 200 characters'),
+    .min(1, 'La dirección es requerida')
+    .max(200, 'La dirección debe tener menos de 200 caracteres'),
 })
 
 type ClientFormData = z.infer<typeof clientSchema>
@@ -88,7 +88,7 @@ export function ClientRegistrationForm({ onSubmit, initialData }: ClientRegistra
       }
       await onSubmit(formattedData)
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred')
+      setError(err instanceof Error ? err.message : 'Ocurrió un error')
     } finally {
       setIsSubmitting(false)
     }
@@ -119,10 +119,10 @@ export function ClientRegistrationForm({ onSubmit, initialData }: ClientRegistra
               name="customer_id"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-sm font-medium text-gray-700">Customer ID</FormLabel>
+                  <FormLabel className="text-sm font-medium text-gray-700">ID de Cliente</FormLabel>
                   <FormControl>
                     <Input 
-                      placeholder="Enter customer ID" 
+                      placeholder="Ingrese ID de cliente" 
                       {...field}
                       className="h-10 bg-white border border-gray-200 hover:border-emerald-100 shadow-sm text-sm rounded-md focus-visible:ring-1 focus-visible:ring-emerald-500 focus-visible:border-emerald-500" 
                     />
@@ -137,10 +137,10 @@ export function ClientRegistrationForm({ onSubmit, initialData }: ClientRegistra
               name="first_name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-sm font-medium text-gray-700">First Name</FormLabel>
+                  <FormLabel className="text-sm font-medium text-gray-700">Nombre</FormLabel>
                   <FormControl>
                     <Input 
-                      placeholder="Enter first name" 
+                      placeholder="Ingrese nombre" 
                       {...field}
                       className="h-10 bg-white border border-gray-200 hover:border-emerald-100 shadow-sm text-sm rounded-md focus-visible:ring-1 focus-visible:ring-emerald-500 focus-visible:border-emerald-500" 
                     />
@@ -155,10 +155,10 @@ export function ClientRegistrationForm({ onSubmit, initialData }: ClientRegistra
               name="last_name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-sm font-medium text-gray-700">Last Name</FormLabel>
+                  <FormLabel className="text-sm font-medium text-gray-700">Apellido</FormLabel>
                   <FormControl>
                     <Input 
-                      placeholder="Enter last name" 
+                      placeholder="Ingrese apellido" 
                       {...field}
                       className="h-10 bg-white border border-gray-200 hover:border-emerald-100 shadow-sm text-sm rounded-md focus-visible:ring-1 focus-visible:ring-emerald-500 focus-visible:border-emerald-500" 
                     />
@@ -173,11 +173,11 @@ export function ClientRegistrationForm({ onSubmit, initialData }: ClientRegistra
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-sm font-medium text-gray-700">Email</FormLabel>
+                  <FormLabel className="text-sm font-medium text-gray-700">Correo Electrónico</FormLabel>
                   <FormControl>
                     <Input 
                       type="email" 
-                      placeholder="Enter email" 
+                      placeholder="Ingrese correo electrónico" 
                       {...field}
                       className="h-10 bg-white border border-gray-200 hover:border-emerald-100 shadow-sm text-sm rounded-md focus-visible:ring-1 focus-visible:ring-emerald-500 focus-visible:border-emerald-500" 
                     />
@@ -192,11 +192,11 @@ export function ClientRegistrationForm({ onSubmit, initialData }: ClientRegistra
               name="phone"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-sm font-medium text-gray-700">Phone</FormLabel>
+                  <FormLabel className="text-sm font-medium text-gray-700">Teléfono</FormLabel>
                   <FormControl>
                     <Input 
                       type="tel" 
-                      placeholder="Enter phone number" 
+                      placeholder="Ingrese número de teléfono" 
                       {...field}
                       className="h-10 bg-white border border-gray-200 hover:border-emerald-100 shadow-sm text-sm rounded-md focus-visible:ring-1 focus-visible:ring-emerald-500 focus-visible:border-emerald-500" 
                     />
@@ -211,7 +211,7 @@ export function ClientRegistrationForm({ onSubmit, initialData }: ClientRegistra
               name="date_of_birth"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-sm font-medium text-gray-700">Date of Birth</FormLabel>
+                  <FormLabel className="text-sm font-medium text-gray-700">Fecha de Nacimiento</FormLabel>
                   <FormControl>
                     <Input 
                       type="date" 
@@ -229,10 +229,10 @@ export function ClientRegistrationForm({ onSubmit, initialData }: ClientRegistra
               name="address"
               render={({ field }) => (
                 <FormItem className="md:col-span-2">
-                  <FormLabel className="text-sm font-medium text-gray-700">Address</FormLabel>
+                  <FormLabel className="text-sm font-medium text-gray-700">Dirección</FormLabel>
                   <FormControl>
                     <Input 
-                      placeholder="Enter address" 
+                      placeholder="Ingrese dirección" 
                       {...field}
                       className="h-10 bg-white border border-gray-200 hover:border-emerald-100 shadow-sm text-sm rounded-md focus-visible:ring-1 focus-visible:ring-emerald-500 focus-visible:border-emerald-500" 
                     />
@@ -252,7 +252,7 @@ export function ClientRegistrationForm({ onSubmit, initialData }: ClientRegistra
             disabled={isSubmitting}
             className="h-10 px-4 border border-gray-200 text-gray-700 hover:text-emerald-700 hover:border-emerald-100 hover:bg-emerald-50 transition-colors rounded-md text-sm font-medium"
           >
-            Reset
+            Restablecer
           </Button>
           <Button 
             type="submit" 
@@ -265,10 +265,10 @@ export function ClientRegistrationForm({ onSubmit, initialData }: ClientRegistra
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
-                Saving...
+                Guardando...
               </span>
             ) : (
-              'Save Client'
+              'Guardar Cliente'
             )}
           </Button>
         </div>

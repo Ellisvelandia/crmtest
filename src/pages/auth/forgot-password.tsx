@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useToast } from '@/components/ui/use-toast'
 import { Icons } from '@/components/ui/icons'
+import { Gem, Check } from "lucide-react"
 
 export default function ForgotPasswordPage() {
   const { toast } = useToast()
@@ -32,24 +33,27 @@ export default function ForgotPasswordPage() {
   return (
     <div className="min-h-screen bg-white flex flex-col items-center justify-center p-4">
       <div className="w-full max-w-[400px] space-y-6">
-        <div className="flex flex-col items-center space-y-2">
-          <div className="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center">
-            <Icons.sparkles className="h-6 w-6 text-white" />
+        <div className="flex flex-col items-center space-y-6">
+          <div className="flex items-center gap-2">
+            <Gem className="h-6 w-6 text-[#008F5D]" />
+            <span className="text-xl font-semibold text-[#008F5D]">Zafiro</span>
           </div>
-          <h1 className="text-2xl font-semibold text-gray-900">¿Olvidaste tu contraseña?</h1>
-          <p className="text-gray-500">Ingresa tu correo electrónico para restablecerla</p>
+          <div className="text-center">
+            <h1 className="text-2xl font-semibold text-gray-900">¿Olvidaste tu contraseña?</h1>
+            <p className="text-gray-500">Ingresa tu correo electrónico para restablecerla</p>
+          </div>
         </div>
 
         {sent ? (
           <div className="space-y-4">
-            <div className="bg-green-50 p-4 rounded-lg border border-green-200">
+            <div className="bg-emerald-50 p-4 rounded-lg border border-emerald-200">
               <div className="flex items-center space-x-2">
-                <Icons.sparkles className="h-5 w-5 text-green-500" />
-                <p className="text-green-700">Hemos enviado un correo con las instrucciones para restablecer tu contraseña.</p>
+                <Check className="h-5 w-5 text-emerald-500" />
+                <p className="text-emerald-700">Hemos enviado un correo con las instrucciones para restablecer tu contraseña.</p>
               </div>
             </div>
             <div className="text-center">
-              <a href="/login" className="text-orange-500 hover:text-orange-600">
+              <a href="/login" className="text-[#008F5D] hover:text-emerald-700">
                 Volver al inicio de sesión
               </a>
             </div>
@@ -64,13 +68,13 @@ export default function ForgotPasswordPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="h-12 px-4 border-gray-200 focus:border-orange-500 focus:ring-orange-500"
+                className="h-12 px-4 border-gray-200 focus:border-[#008F5D] focus:ring-[#008F5D]"
               />
             </div>
 
             <Button
               type="submit"
-              className="w-full h-12 bg-orange-500 hover:bg-orange-600 text-white"
+              className="w-full h-12 bg-[#008F5D] hover:bg-emerald-700 text-white"
               disabled={isLoading}
             >
               {isLoading ? (
@@ -80,7 +84,7 @@ export default function ForgotPasswordPage() {
             </Button>
 
             <div className="text-center">
-              <a href="/login" className="text-orange-500 hover:text-orange-600">
+              <a href="/login" className="text-[#008F5D] hover:text-emerald-700">
                 Volver al inicio de sesión
               </a>
             </div>

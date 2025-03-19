@@ -11,6 +11,7 @@ import LoginPage from '../pages/auth/login'
 import SignUpPage from '../pages/auth/signup'
 import ForgotPasswordPage from '../pages/auth/forgot-password'
 import ResetPasswordPage from '../pages/auth/reset-password'
+import AuthCallback from '../pages/auth/callback'
 import { ProtectedRoute } from '../components/auth/ProtectedRoute'
 
 export const router = createBrowserRouter([
@@ -31,7 +32,11 @@ export const router = createBrowserRouter([
     element: <ForgotPasswordPage />,
   },
   {
-    path: '/reset-password',
+    path: '/auth/callback',
+    element: <AuthCallback />,
+  },
+  {
+    path: '/auth/reset-password',
     element: <ResetPasswordPage />,
   },
   {

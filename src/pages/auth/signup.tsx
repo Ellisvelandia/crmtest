@@ -1,50 +1,56 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { authApi } from '@/lib/api/auth'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { useToast } from '@/components/ui/use-toast'
-import { Icons } from '@/components/ui/icons'
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { authApi } from "@/lib/api/auth";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
+import { Icons } from "@/components/ui/icons";
+import { Gem } from "lucide-react";
 
 export default function SignUpPage() {
-  const navigate = useNavigate()
-  const { toast } = useToast()
-  const [isLoading, setIsLoading] = useState(false)
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const navigate = useNavigate();
+  const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsLoading(true)
+    e.preventDefault();
+    setIsLoading(true);
 
     try {
-      const { error } = await authApi.signUp(email, password)
-      if (error) throw error
-      navigate('/login')
+      const { error } = await authApi.signUp(email, password);
+      if (error) throw error;
+      navigate("/login");
       toast({
         title: "Registro exitoso",
-        description: "Por favor verifica tu correo electrónico para continuar"
-      })
+        description: "Por favor verifica tu correo electrónico para continuar",
+      });
     } catch (error) {
       toast({
         variant: "destructive",
         title: "Error al registrarse",
-        description: "No se pudo crear la cuenta"
-      })
+        description: "No se pudo crear la cuenta",
+      });
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <div className="min-h-screen bg-white flex flex-col items-center justify-center p-4">
       <div className="w-full max-w-[400px] space-y-6">
-        <div className="flex flex-col items-center space-y-2">
-          <div className="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center">
-            <Icons.sparkles className="h-6 w-6 text-white" />
+        <div className="flex flex-col items-center space-y-6">
+          <div className="flex items-center gap-2">
+            <Gem className="h-6 w-6 text-[#008F5D]" />
+            <span className="text-xl font-semibold text-[#008F5D]">Zafiro</span>
           </div>
-          <h1 className="text-2xl font-semibold text-gray-900">Crear cuenta</h1>
-          <p className="text-gray-500">Ingresa tus datos para registrarte</p>
+          <div className="text-center">
+            <h1 className="text-2xl font-semibold text-gray-900">
+              Crear cuenta
+            </h1>
+            <p className="text-gray-500">Ingresa tus datos para registrarte</p>
+          </div>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -56,7 +62,7 @@ export default function SignUpPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="h-12 px-4 border-gray-200 focus:border-orange-500 focus:ring-orange-500"
+              className="h-12 px-4 border-gray-200 focus:border-[#008F5D] focus:ring-[#008F5D]"
             />
           </div>
 
@@ -68,13 +74,13 @@ export default function SignUpPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="h-12 px-4 border-gray-200 focus:border-orange-500 focus:ring-orange-500"
+              className="h-12 px-4 border-gray-200 focus:border-[#008F5D] focus:ring-[#008F5D]"
             />
           </div>
 
           <Button
             type="submit"
-            className="w-full h-12 bg-orange-500 hover:bg-orange-600 text-white"
+            className="w-full h-12 bg-[#008F5D] hover:bg-emerald-700 text-white"
             disabled={isLoading}
           >
             {isLoading ? (
@@ -83,40 +89,14 @@ export default function SignUpPage() {
             Crear cuenta
           </Button>
 
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-200" />
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="bg-white px-2 text-gray-500">O continuar con</span>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <Button
-              type="button"
-              variant="outline"
-              className="h-12 border-gray-200 hover:bg-gray-50"
-            >
-              <Icons.google className="h-5 w-5" />
-            </Button>
-            <Button
-              type="button"
-              variant="outline"
-              className="h-12 border-gray-200 hover:bg-gray-50"
-            >
-              <Icons.facebook className="h-5 w-5 text-blue-600" />
-            </Button>
-          </div>
-
           <p className="text-center text-sm text-gray-500">
-            ¿Ya tienes una cuenta?{' '}
-            <a href="/login" className="text-orange-500 hover:text-orange-600">
+            ¿Ya tienes una cuenta?{" "}
+            <a href="/login" className="text-[#008F5D] hover:text-emerald-700">
               Iniciar sesión
             </a>
           </p>
         </form>
       </div>
     </div>
-  )
-} 
+  );
+}

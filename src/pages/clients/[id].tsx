@@ -85,151 +85,202 @@ const ClientDetailsPage = () => {
   }
 
   return (
-    <div className="p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Client Details</h1>
-        <button
-          onClick={() => navigate('/clients')}
-          className="text-indigo-600 hover:text-indigo-800"
-        >
-          Back to Clients
-        </button>
-      </div>
-
-      {isEditing ? (
-        <form onSubmit={handleSubmit} className="space-y-6 max-w-2xl">
-          <div className="grid grid-cols-2 gap-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                First Name
-              </label>
-              <input
-                type="text"
-                name="first_name"
-                value={formData.first_name || ''}
-                onChange={handleInputChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Last Name
-              </label>
-              <input
-                type="text"
-                name="last_name"
-                value={formData.last_name || ''}
-                onChange={handleInputChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Email
-              </label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email || ''}
-                onChange={handleInputChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Phone
-              </label>
-              <input
-                type="tel"
-                name="phone"
-                value={formData.phone || ''}
-                onChange={handleInputChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Date of Birth
-              </label>
-              <input
-                type="date"
-                name="date_of_birth"
-                value={formData.date_of_birth instanceof Date ? formData.date_of_birth.toISOString().split('T')[0] : ''}
-                onChange={handleInputChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Address
-              </label>
-              <input
-                type="text"
-                name="address"
-                value={formData.address || ''}
-                onChange={handleInputChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-              />
-            </div>
-          </div>
-          <div className="flex gap-4">
-            <button
-              type="submit"
-              className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-            >
-              Save Changes
-            </button>
-            <button
-              type="button"
-              onClick={() => setIsEditing(false)}
-              className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
-            >
-              Cancel
-            </button>
-          </div>
-        </form>
-      ) : (
-        <>
-          <div className="bg-white shadow rounded-lg p-6 mb-6">
-            <div className="grid grid-cols-2 gap-6">
-              <div>
-                <p className="text-sm text-gray-500">Customer ID</p>
-                <p className="font-medium">{client.customer_id}</p>
-              </div>
-              <div>
-                <p className="text-sm text-gray-500">Name</p>
-                <p className="font-medium">
-                  {client.first_name} {client.last_name}
-                </p>
-              </div>
-              <div>
-                <p className="text-sm text-gray-500">Email</p>
-                <p className="font-medium">{client.email}</p>
-              </div>
-              <div>
-                <p className="text-sm text-gray-500">Phone</p>
-                <p className="font-medium">{client.phone}</p>
-              </div>
-              <div>
-                <p className="text-sm text-gray-500">Date of Birth</p>
-                <p className="font-medium">
-                  {new Date(client.date_of_birth).toLocaleDateString()}
-                </p>
-              </div>
-              <div>
-                <p className="text-sm text-gray-500">Address</p>
-                <p className="font-medium">{client.address}</p>
-              </div>
-            </div>
-          </div>
+    <div className="min-h-screen bg-[#f8faf9] p-6">
+      <div className="max-w-4xl mx-auto">
+        {/* Header */}
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-2xl font-semibold text-gray-900">Client Details</h1>
           <button
-            onClick={() => setIsEditing(true)}
-            className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            onClick={() => navigate('/clients')}
+            className="text-emerald-600 hover:text-emerald-700 text-sm font-medium"
           >
-            Edit Client
+            ← Back to Clients
           </button>
-        </>
-      )}
+        </div>
+        <p className="text-sm text-gray-500 mb-8">View and manage client information</p>
+
+        {isEditing ? (
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+              <div className="px-6 py-4 border-b border-gray-100 bg-gray-50/50">
+                <h2 className="text-base font-medium text-gray-900">Edit Client Information</h2>
+              </div>
+              <div className="p-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      First Name
+                    </label>
+                    <input
+                      type="text"
+                      name="first_name"
+                      value={formData.first_name || ''}
+                      onChange={handleInputChange}
+                      className="w-full h-10 px-3 bg-white border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-colors"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Last Name
+                    </label>
+                    <input
+                      type="text"
+                      name="last_name"
+                      value={formData.last_name || ''}
+                      onChange={handleInputChange}
+                      className="w-full h-10 px-3 bg-white border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-colors"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email || ''}
+                      onChange={handleInputChange}
+                      className="w-full h-10 px-3 bg-white border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-colors"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Phone
+                    </label>
+                    <input
+                      type="tel"
+                      name="phone"
+                      value={formData.phone || ''}
+                      onChange={handleInputChange}
+                      className="w-full h-10 px-3 bg-white border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-colors"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Date of Birth
+                    </label>
+                    <input
+                      type="date"
+                      name="date_of_birth"
+                      value={formData.date_of_birth instanceof Date ? formData.date_of_birth.toISOString().split('T')[0] : ''}
+                      onChange={handleInputChange}
+                      className="w-full h-10 px-3 bg-white border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-colors"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Address
+                    </label>
+                    <input
+                      type="text"
+                      name="address"
+                      value={formData.address || ''}
+                      onChange={handleInputChange}
+                      className="w-full h-10 px-3 bg-white border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-colors"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="px-6 py-4 bg-gray-50 border-t border-gray-100 flex justify-end space-x-3">
+                <button
+                  type="button"
+                  onClick={() => setIsEditing(false)}
+                  className="px-4 py-2 bg-white border border-gray-300 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-lg shadow-sm transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-emerald-600 text-white text-sm font-medium hover:bg-emerald-700 rounded-lg shadow-sm transition-colors"
+                >
+                  Save Changes
+                </button>
+              </div>
+            </div>
+          </form>
+        ) : (
+          <>
+            {/* Client Header Card */}
+            <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+              <div className="p-6 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div>
+                    <h2 className="text-base font-medium text-gray-900">
+                      {client.first_name.toLowerCase()} {client.last_name.toLowerCase()}
+                    </h2>
+                    <p className="text-sm text-gray-500">
+                      Customer since {new Date(client.created_at).toLocaleDateString('en-US', { 
+                        day: 'numeric',
+                        month: 'long', 
+                        year: 'numeric' 
+                      })}
+                    </p>
+                  </div>
+                </div>
+                <span className="px-3 py-1 bg-[#e5f5ef] text-emerald-600 text-xs font-medium rounded-full">
+                  Active Client
+                </span>
+              </div>
+
+              {/* Client Details Grid */}
+              <div className="px-6 pb-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
+                  <div className="relative">
+                    <p className="text-sm font-medium text-gray-500 mb-2">Customer ID</p>
+                    <p className="text-sm text-gray-900 pb-2 border-b border-gray-100 hover:border-emerald-100 transition-colors group">
+                      <span className="font-medium">{client.customer_id}</span>
+                      <span className="absolute bottom-2 left-0 w-0 h-0.5 bg-emerald-100 group-hover:w-full transition-all duration-300"></span>
+                    </p>
+                  </div>
+                  <div className="relative">
+                    <p className="text-sm font-medium text-gray-500 mb-2">Email</p>
+                    <p className="text-sm text-gray-900 pb-2 border-b border-gray-100 hover:border-emerald-100 transition-colors group">
+                      <span className="font-medium">{client.email}</span>
+                      <span className="absolute bottom-2 left-0 w-0 h-0.5 bg-emerald-100 group-hover:w-full transition-all duration-300"></span>
+                    </p>
+                  </div>
+                  <div className="relative">
+                    <p className="text-sm font-medium text-gray-500 mb-2">Phone</p>
+                    <p className="text-sm text-gray-900 pb-2 border-b border-gray-100 hover:border-emerald-100 transition-colors group">
+                      <span className="font-medium">{client.phone}</span>
+                      <span className="absolute bottom-2 left-0 w-0 h-0.5 bg-emerald-100 group-hover:w-full transition-all duration-300"></span>
+                    </p>
+                  </div>
+                  <div className="relative">
+                    <p className="text-sm font-medium text-gray-500 mb-2">Date of Birth</p>
+                    <p className="text-sm text-gray-900 pb-2 border-b border-gray-100 hover:border-emerald-100 transition-colors group">
+                      <span className="font-medium">
+                        {new Date(client.date_of_birth).toLocaleDateString()}
+                      </span>
+                      <span className="absolute bottom-2 left-0 w-0 h-0.5 bg-emerald-100 group-hover:w-full transition-all duration-300"></span>
+                    </p>
+                  </div>
+                  <div className="md:col-span-2 relative">
+                    <p className="text-sm font-medium text-gray-500 mb-2">Address</p>
+                    <p className="text-sm text-gray-900 pb-2 border-b border-gray-100 hover:border-emerald-100 transition-colors group">
+                      <span className="font-medium">{client.address}</span>
+                      <span className="absolute bottom-2 left-0 w-0 h-0.5 bg-emerald-100 group-hover:w-full transition-all duration-300"></span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Edit Button */}
+            <div className="mt-6 flex justify-end">
+              <button
+                onClick={() => setIsEditing(true)}
+                className="inline-flex items-center px-4 py-2 bg-emerald-600 text-white text-sm font-medium hover:bg-emerald-700 rounded-lg transition-colors"
+              >
+                <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                </svg>
+                Edit Client
+              </button>
+            </div>
+          </>
+        )}
+      </div>
     </div>
   )
 }

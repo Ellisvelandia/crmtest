@@ -67,19 +67,28 @@ export default function NewClientPage() {
   }
 
   return (
-    <div className="container mx-auto py-8">
-      <div className="max-w-3xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50/30 to-emerald-100/30">
+      <div className="max-w-3xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between mb-8">
-          <h1 className="text-2xl font-bold">Register New Client</h1>
+          <div>
+            <h1 className="text-2xl font-semibold text-gray-900">Register New Client</h1>
+            <p className="mt-1 text-sm text-emerald-600">Add a new client to the system</p>
+          </div>
           <button
             onClick={() => navigate('/clients')}
-            className="px-4 py-2 text-sm text-gray-600 hover:text-gray-800"
+            className="inline-flex items-center px-4 py-2 text-sm font-medium text-emerald-700 hover:text-emerald-800 hover:bg-emerald-50 rounded-md transition-colors"
           >
             ← Back to Clients
           </button>
         </div>
-        <div className="bg-white shadow-md rounded-lg p-6">
-          <ClientRegistrationForm onSubmit={handleSubmit} />
+        <div className="bg-white shadow-lg rounded-xl border border-emerald-100">
+          <div className="px-6 py-4 border-b border-emerald-100 bg-emerald-50/50">
+            <h2 className="text-lg font-medium text-gray-900">Client Information</h2>
+            <p className="mt-1 text-sm text-emerald-600">Fill in the details below to register a new client</p>
+          </div>
+          <div className="p-6">
+            <ClientRegistrationForm onSubmit={handleSubmit} />
+          </div>
         </div>
       </div>
     </div>

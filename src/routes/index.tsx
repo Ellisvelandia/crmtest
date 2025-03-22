@@ -14,6 +14,7 @@ import ResetPasswordPage from '../pages/auth/reset-password'
 import AuthCallback from '../pages/auth/callback'
 import { ProtectedRoute } from '../components/auth/ProtectedRoute'
 import { PublicRoute } from '../components/auth/PublicRoute'
+import BirthdaysPage from '../pages/clients/birthdays'
 
 export const router = createBrowserRouter([
   {
@@ -79,6 +80,10 @@ export const router = createBrowserRouter([
           {
             path: 'new',
             element: <NewClientPage />
+          },
+          {
+            path: 'birthdays',
+            element: <BirthdaysPage />
           },
           {
             path: ':id',

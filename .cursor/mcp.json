@@ -1,8 +1,14 @@
 {
   "mcpServers": {
-    "supabase": {
-      "command": "cmd",
-      "args": ["/c", "npx", "-y", "@modelcontextprotocol/server-postgres", "postgresql://postgres:plomo619ellisdb@db.kyvojzhfbfigmnsrecqu.supabase.co:5432/postgres"]
+    "Supabase - zafirobase": {
+      "url": "https://mcp.composio.dev/supabase/drab-gorgeous-truck-HUaXbC",
+      "defaultConfig": {
+        "projectRef": "kyvojzhfbfigmnsrecqu",
+        "region": "us-west-1",
+        "database": {
+          "host": "db.kyvojzhfbfigmnsrecqu.supabase.co"
+        }
+      }
     }
   }
 }

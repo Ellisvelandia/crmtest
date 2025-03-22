@@ -1,13 +1,33 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Client } from '../../types'
 import { ClientSearch } from '../../components/features/clients/ClientSearch'
 import { motion } from 'framer-motion'
+import { supabase } from '../../lib/supabase/config'
 
 const ClientsPage = () => {
   const [selectedClient, setSelectedClient] = useState<Client | null>(null)
+  const [clients, setClients] = useState<Client[]>([])
+
+  useEffect(() => {
+    const fetchClients = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('clients')
+          .select('*')
+          .order('last_name', { ascending: true })
+
+        if (error) throw error
+        setClients(data || [])
+      } catch (error) {
+        console.error('Error fetching clients:', error)
+      }
+    }
+
+    fetchClients()
+  }, [])
 
   return (
     <div className="min-h-screen bg-[#f8fafc]">
@@ -31,7 +51,7 @@ const ClientsPage = () => {
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-xs font-medium px-2 py-1 rounded-full bg-emerald-50 text-emerald-600">
-                  Clientes Activos: {selectedClient ? '1' : '0'}
+                  Clientes Activos: {clients.length}
                 </span>
               </div>
             </div>
@@ -134,20 +154,20 @@ const ClientsPage = () => {
                   </div>
                 </Link>
 
-                <button
-                  onClick={() => {/* TODO: Implement birthday report */}}
+                <Link
+                  to="/clients/birthdays"
                   className="group flex items-center gap-4 p-4 bg-white border border-gray-200 rounded-lg hover:border-emerald-200 hover:bg-emerald-50/50 transition-colors"
                 >
                   <div className="rounded-md bg-emerald-50 p-2">
                     <svg className="h-5 w-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.701 2.701 0 00-1.5-.454M9 6v2m3-2v2m3-2v2M9 3h.01M12 3h.01M15 3h.01M21 21v-7a2 2 0 00-2-2H5a2 2 0 00-2 2v7h18zm-3-9v-2a2 2 0 00-2-2H8a2 2 0 00-2 2v2h12z" />
                     </svg>
                   </div>
                   <div>
-                    <h3 className="text-sm font-medium text-gray-900">Reporte de Cumpleaños</h3>
-                    <p className="text-xs text-gray-500">Ver próximos cumpleaños</p>
+                    <h3 className="text-sm font-medium text-gray-900">Cumpleaños</h3>
+                    <p className="text-xs text-gray-500">Gestionar cumpleaños de clientes</p>
                   </div>
-                </button>
+                </Link>
               </div>
             </motion.div>
           </motion.div>

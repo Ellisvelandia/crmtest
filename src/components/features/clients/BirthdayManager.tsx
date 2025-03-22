@@ -4,9 +4,10 @@ import { useState, useMemo } from 'react'
 import { Client } from '../../../types'
 import { format, addMonths, startOfMonth, endOfMonth, isWithinInterval } from 'date-fns'
 import { es } from 'date-fns/locale'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { Calendar } from '../../../components/ui/calendar'
 import { Button } from '../../../components/ui/button'
+import { Calendar as CalendarIcon, List, ArrowUpDown, Download, Gift } from 'lucide-react'
 import {
   Select,
   SelectContent,
@@ -14,7 +15,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '../../../components/ui/select'
-import { Card, CardContent, CardHeader, CardTitle } from '../../../components/ui/card'
+import { Card, CardContent } from '../../../components/ui/card'
+import { Badge } from '../../../components/ui/badge'
+import { Tooltip } from '../../../components/ui/tooltip'
 
 interface BirthdayManagerProps {
   clients: Client[]
@@ -96,124 +99,163 @@ export const BirthdayManager = ({ clients }: BirthdayManagerProps) => {
   }
 
   return (
-    <Card className="w-full">
-      <CardHeader className="space-y-4 sm:space-y-0 sm:flex sm:items-center sm:justify-between">
-        <CardTitle className="text-xl sm:text-2xl">Gestión de Cumpleaños</CardTitle>
-        <div className="flex flex-col sm:flex-row gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={generateReport}
-            className="w-full sm:w-auto"
+    <div className="space-y-6">
+      {/* Enhanced Controls */}
+      <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+        <div className="flex flex-wrap gap-4 items-center">
+          <Select
+            value={selectedMonth.toString()}
+            onValueChange={(value) => setSelectedMonth(parseInt(value))}
           >
-            <span className="hidden sm:inline">Exportar</span> CSV
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={exportCalendar}
-            className="w-full sm:w-auto"
-          >
-            <span className="hidden sm:inline">Exportar</span> Calendario
-          </Button>
-        </div>
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-6">
-          {/* Controls */}
-          <div className="flex flex-col sm:flex-row gap-4">
-            <Select
-              value={selectedMonth.toString()}
-              onValueChange={(value) => setSelectedMonth(parseInt(value))}
-            >
-              <SelectTrigger className="w-full sm:w-[180px]">
-                <SelectValue placeholder="Seleccionar mes" />
-              </SelectTrigger>
-              <SelectContent>
-                {Array.from({ length: 12 }, (_, i) => (
-                  <SelectItem key={i} value={i.toString()}>
-                    {format(new Date(2000, i, 1), 'MMMM', { locale: es })}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <SelectTrigger className="w-[180px]" aria-label="Seleccionar mes">
+              <CalendarIcon className="h-4 w-4 mr-2 text-emerald-500" />
+              <SelectValue placeholder="Seleccionar mes" />
+            </SelectTrigger>
+            <SelectContent>
+              {Array.from({ length: 12 }, (_, i) => (
+                <SelectItem key={i} value={i.toString()}>
+                  {format(new Date(2000, i, 1), 'MMMM', { locale: es })}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
 
-            <Select
-              value={selectedView}
-              onValueChange={(value: 'list' | 'calendar') => setSelectedView(value)}
+          <div className="flex items-center gap-2">
+            <Button
+              variant={selectedView === 'list' ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => setSelectedView('list')}
+              aria-label="Vista de lista"
             >
-              <SelectTrigger className="w-full sm:w-[180px]">
-                <SelectValue placeholder="Tipo de vista" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="list">Lista</SelectItem>
-                <SelectItem value="calendar">Calendario</SelectItem>
-              </SelectContent>
-            </Select>
-
-            <Select
-              value={sortOrder}
-              onValueChange={(value: 'asc' | 'desc') => setSortOrder(value)}
+              <List className="h-4 w-4 mr-2" />
+              Lista
+            </Button>
+            <Button
+              variant={selectedView === 'calendar' ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => setSelectedView('calendar')}
+              aria-label="Vista de calendario"
             >
-              <SelectTrigger className="w-full sm:w-[180px]">
-                <SelectValue placeholder="Ordenar por" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="asc">Ascendente</SelectItem>
-                <SelectItem value="desc">Descendente</SelectItem>
-              </SelectContent>
-            </Select>
+              <CalendarIcon className="h-4 w-4 mr-2" />
+              Calendario
+            </Button>
           </div>
 
-          {/* Content */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setSortOrder(prev => prev === 'asc' ? 'desc' : 'asc')}
+            aria-label="Cambiar orden"
           >
-            {selectedView === 'list' ? (
-              <div className="grid gap-4">
-                {filteredClients.map(client => (
-                  <motion.div
-                    key={client.customer_id}
-                    initial={{ opacity: 0, y: 5 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="p-4 bg-white rounded-lg border border-gray-200 hover:border-emerald-200 transition-colors"
-                  >
-                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 sm:gap-4">
-                      <div className="space-y-1">
-                        <h3 className="font-medium text-gray-900 text-sm sm:text-base">
-                          {client.first_name} {client.last_name}
-                        </h3>
-                        <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4">
-                          <p className="text-xs sm:text-sm text-emerald-600 font-medium">
-                            {format(new Date(client.date_of_birth), 'dd MMMM', { locale: es })}
-                          </p>
-                          <p className="text-xs text-gray-500">
-                            ID: {client.customer_id}
-                          </p>
+            <ArrowUpDown className="h-4 w-4 mr-2" />
+            {sortOrder === 'asc' ? 'Ascendente' : 'Descendente'}
+          </Button>
+        </div>
+
+        <div className="flex gap-2">
+          <Tooltip content="Exportar a CSV">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={generateReport}
+              aria-label="Exportar a CSV"
+            >
+              <Download className="h-4 w-4 mr-2" />
+              CSV
+            </Button>
+          </Tooltip>
+          <Tooltip content="Exportar a Calendario">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={exportCalendar}
+              aria-label="Exportar a Calendario"
+            >
+              <CalendarIcon className="h-4 w-4 mr-2" />
+              iCal
+            </Button>
+          </Tooltip>
+        </div>
+      </div>
+
+      {/* Content */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={selectedView}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          transition={{ duration: 0.3 }}
+        >
+          {selectedView === 'list' ? (
+            <div className="grid gap-4">
+              {filteredClients.map((client, index) => (
+                <motion.div
+                  key={client.customer_id}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.2, delay: index * 0.05 }}
+                >
+                  <Card className="group hover:border-emerald-200 transition-colors">
+                    <CardContent className="p-4">
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                        <div className="flex items-center gap-4">
+                          <div className="rounded-full bg-emerald-50 p-3 group-hover:bg-emerald-100 transition-colors">
+                            <Gift className="h-5 w-5 text-emerald-600" />
+                          </div>
+                          <div className="space-y-1">
+                            <h3 className="font-medium text-gray-900">
+                              {client.first_name} {client.last_name}
+                            </h3>
+                            <div className="flex items-center gap-2">
+                              <Badge variant="secondary" className="bg-emerald-50 text-emerald-600 group-hover:bg-emerald-100">
+                                {format(new Date(client.date_of_birth), 'dd MMMM', { locale: es })}
+                              </Badge>
+                              <span className="text-xs text-gray-500">
+                                ID: {client.customer_id}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 ml-auto">
+                          <a
+                            href={`mailto:${client.email}`}
+                            className="text-sm text-gray-600 hover:text-emerald-600 transition-colors"
+                          >
+                            {client.email}
+                          </a>
+                          <a
+                            href={`tel:${client.phone}`}
+                            className="text-sm text-gray-600 hover:text-emerald-600 transition-colors"
+                          >
+                            {client.phone}
+                          </a>
                         </div>
                       </div>
-                      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-500">
-                        <span className="hidden sm:inline">{client.email}</span>
-                        <span>{client.phone}</span>
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-                
-                {filteredClients.length === 0 && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="text-center py-12 text-gray-500"
-                  >
-                    <p>No hay cumpleaños en este mes</p>
-                  </motion.div>
-                )}
-              </div>
-            ) : (
-              <div className="w-full">
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))}
+              
+              {filteredClients.length === 0 && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="text-center py-12"
+                >
+                  <div className="rounded-full bg-emerald-50 p-4 w-16 h-16 mx-auto mb-4">
+                    <Gift className="h-8 w-8 text-emerald-600" />
+                  </div>
+                  <p className="text-gray-600">No hay cumpleaños en este mes</p>
+                  <p className="text-sm text-gray-500 mt-1">
+                    Selecciona otro mes para ver más cumpleaños
+                  </p>
+                </motion.div>
+              )}
+            </div>
+          ) : (
+            <Card>
+              <CardContent className="p-4">
                 <Calendar
                   month={new Date(2000, selectedMonth)}
                   className="w-full"
@@ -223,11 +265,11 @@ export const BirthdayManager = ({ clients }: BirthdayManagerProps) => {
                     names: [`${client.first_name} ${client.last_name}`]
                   }))}
                 />
-              </div>
-            )}
-          </motion.div>
-        </div>
-      </CardContent>
-    </Card>
+              </CardContent>
+            </Card>
+          )}
+        </motion.div>
+      </AnimatePresence>
+    </div>
   )
 } 

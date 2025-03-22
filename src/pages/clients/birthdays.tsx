@@ -3,10 +3,9 @@
 import { useState, useEffect } from 'react'
 import { Client } from '../../types'
 import { BirthdayManager } from '../../components/features/clients/BirthdayManager'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { supabase } from '../../lib/supabase/config'
-import { Loader2, Calendar, Gift, Download, Bell } from 'lucide-react'
-import { Button } from '../../components/ui/button'
+import { Loader2, Calendar, Gift } from 'lucide-react'
 
 const BirthdaysPage = () => {
   const [clients, setClients] = useState<Client[]>([])
@@ -107,118 +106,29 @@ const BirthdaysPage = () => {
               </motion.div>
             </div>
 
-            {/* Birthday Manager Section with enhanced loading state */}
-            <AnimatePresence mode="wait">
-              {isLoading ? (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  className="flex flex-col items-center justify-center py-16 gap-4"
-                >
-                  <Loader2 className="h-8 w-8 text-emerald-600 animate-spin" />
-                  <p className="text-sm text-gray-600">Cargando datos de clientes...</p>
-                </motion.div>
-              ) : (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4 }}
-                >
-                  <div className="w-full bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-                    <div className="p-6 w-full">
-                      <BirthdayManager clients={clients} />
-                    </div>
+            {/* Birthday Manager Section */}
+            {isLoading ? (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="flex flex-col items-center justify-center py-16 gap-4"
+              >
+                <Loader2 className="h-8 w-8 text-emerald-600 animate-spin" />
+                <p className="text-sm text-gray-600">Cargando datos de clientes...</p>
+              </motion.div>
+            ) : (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4 }}
+              >
+                <div className="w-full bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+                  <div className="p-6 w-full">
+                    <BirthdayManager clients={clients} />
                   </div>
-
-                  {/* Enhanced Quick Actions Section */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: 0.2 }}
-                    className="mt-8 space-y-6"
-                  >
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                      <div>
-                        <h2 className="text-xl font-semibold text-gray-900">Acciones Rápidas</h2>
-                        <p className="text-sm text-gray-600">Operaciones frecuentes para gestión de cumpleaños</p>
-                      </div>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="self-start sm:self-center"
-                        onClick={() => {}}
-                      >
-                        <Download className="h-4 w-4 mr-2" />
-                        Exportar Todo
-                      </Button>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                      <motion.div
-                        whileHover={{ scale: 1.02 }}
-                        className="group flex items-start gap-4 p-5 bg-white border border-gray-200 rounded-lg hover:border-emerald-200 hover:bg-emerald-50/30 transition-all duration-200"
-                      >
-                        <div className="rounded-lg bg-emerald-50 p-3 group-hover:bg-emerald-100 transition-colors">
-                          <Bell className="h-5 w-5 text-emerald-600" />
-                        </div>
-                        <div className="space-y-2">
-                          <h3 className="text-sm font-medium text-gray-900">Recordatorios</h3>
-                          <p className="text-sm text-gray-600">Configura notificaciones automáticas para cumpleaños próximos</p>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            className="text-emerald-600 hover:text-emerald-700 hover:bg-emerald-100 -ml-2"
-                          >
-                            Configurar
-                          </Button>
-                        </div>
-                      </motion.div>
-
-                      <motion.div
-                        whileHover={{ scale: 1.02 }}
-                        className="group flex items-start gap-4 p-5 bg-white border border-gray-200 rounded-lg hover:border-emerald-200 hover:bg-emerald-50/30 transition-all duration-200"
-                      >
-                        <div className="rounded-lg bg-emerald-50 p-3 group-hover:bg-emerald-100 transition-colors">
-                          <Calendar className="h-5 w-5 text-emerald-600" />
-                        </div>
-                        <div className="space-y-2">
-                          <h3 className="text-sm font-medium text-gray-900">Calendario</h3>
-                          <p className="text-sm text-gray-600">Visualiza y gestiona todos los cumpleaños en formato calendario</p>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            className="text-emerald-600 hover:text-emerald-700 hover:bg-emerald-100 -ml-2"
-                          >
-                            Ver Calendario
-                          </Button>
-                        </div>
-                      </motion.div>
-
-                      <motion.div
-                        whileHover={{ scale: 1.02 }}
-                        className="group flex items-start gap-4 p-5 bg-white border border-gray-200 rounded-lg hover:border-emerald-200 hover:bg-emerald-50/30 transition-all duration-200"
-                      >
-                        <div className="rounded-lg bg-emerald-50 p-3 group-hover:bg-emerald-100 transition-colors">
-                          <Gift className="h-5 w-5 text-emerald-600" />
-                        </div>
-                        <div className="space-y-2">
-                          <h3 className="text-sm font-medium text-gray-900">Celebraciones</h3>
-                          <p className="text-sm text-gray-600">Planifica y gestiona eventos especiales para cumpleaños</p>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            className="text-emerald-600 hover:text-emerald-700 hover:bg-emerald-100 -ml-2"
-                          >
-                            Planificar
-                          </Button>
-                        </div>
-                      </motion.div>
-                    </div>
-                  </motion.div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+                </div>
+              </motion.div>
+            )}
           </motion.div>
         </div>
       </div>

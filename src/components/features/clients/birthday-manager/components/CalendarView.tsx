@@ -8,6 +8,7 @@ import { CalendarViewProps } from '../types'
 import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth } from 'date-fns'
 import { es } from 'date-fns/locale'
 import { Tooltip, TooltipContent, TooltipTrigger } from '../../../../../components/ui/tooltip'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 export const CalendarView = ({ initialMonth, onMonthChange, clients }: CalendarViewProps) => {
   const [currentDate, setCurrentDate] = useState(new Date(new Date().getFullYear(), initialMonth))
@@ -46,22 +47,49 @@ export const CalendarView = ({ initialMonth, onMonthChange, clients }: CalendarV
         <CardContent className="p-6">
           {/* Calendar Header */}
           <div className="mb-6 flex justify-between items-center">
-            <h2 className="text-lg font-semibold text-gray-900 tracking-tight">
-              {format(currentDate, 'MMMM yyyy', { locale: es })}
-            </h2>
-            <div className="flex gap-2">
-              <button
-                onClick={() => setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1))}
-                className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors"
-              >
-                ←
-              </button>
-              <button
-                onClick={() => setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1))}
-                className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors"
-              >
-                →
-              </button>
+            <div className="flex items-center gap-4">
+              <h2 className="text-lg font-semibold text-gray-900 tracking-tight">
+                {format(currentDate, 'MMMM yyyy', { locale: es })}
+              </h2>
+            </div>
+            <div className="flex items-center gap-2">
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button
+                    onClick={() => setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1))}
+                    className="group relative p-2 text-gray-600 hover:text-emerald-600 rounded-lg transition-all duration-200 ease-in-out hover:bg-emerald-50 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
+                  >
+                    <div className="relative">
+                      <ChevronLeft className="h-5 w-5 transition-transform duration-200 ease-out group-hover:scale-110" />
+                      <div className="absolute inset-0 opacity-0 group-hover:opacity-100">
+                        <div className="absolute inset-0 animate-ping-slow rounded-full bg-emerald-400/20" />
+                      </div>
+                    </div>
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p className="text-sm">Mes anterior</p>
+                </TooltipContent>
+              </Tooltip>
+
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button
+                    onClick={() => setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1))}
+                    className="group relative p-2 text-gray-600 hover:text-emerald-600 rounded-lg transition-all duration-200 ease-in-out hover:bg-emerald-50 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
+                  >
+                    <div className="relative">
+                      <ChevronRight className="h-5 w-5 transition-transform duration-200 ease-out group-hover:scale-110" />
+                      <div className="absolute inset-0 opacity-0 group-hover:opacity-100">
+                        <div className="absolute inset-0 animate-ping-slow rounded-full bg-emerald-400/20" />
+                      </div>
+                    </div>
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p className="text-sm">Mes siguiente</p>
+                </TooltipContent>
+              </Tooltip>
             </div>
           </div>
 

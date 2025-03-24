@@ -2,7 +2,7 @@
 export const animations = {
   containerVariants: {
     list: {
-      transition: { staggerChildren: 0.05, delayChildren: 0.2 }
+      transition: { staggerChildren: 0.05, delayChildren: 0.1 }
     },
     calendar: {
       transition: { staggerChildren: 0, delayChildren: 0 }
@@ -11,24 +11,21 @@ export const animations = {
   fadeInUp: {
     initial: { 
       opacity: 0, 
-      y: 20,
-      filter: 'blur(clamp(0px, 8px, 8px))'
+      y: 10
     },
     animate: { 
       opacity: 1, 
       y: 0,
-      filter: 'blur(0px)',
       transition: {
-        duration: 0.5,
+        duration: 0.3,
         ease: [0.25, 0.1, 0.25, 1.0]
       }
     },
     exit: { 
       opacity: 0, 
-      y: -20,
-      filter: 'blur(clamp(0px, 8px, 8px))',
+      y: -10,
       transition: {
-        duration: 0.3,
+        duration: 0.2,
         ease: [0.25, 0.1, 0.25, 1.0]
       }
     }
@@ -36,36 +33,33 @@ export const animations = {
   calendarVariants: {
     initial: { 
       opacity: 0, 
-      scale: 0.92,
-      rotateX: 5,
-      filter: 'blur(clamp(0px, 8px, 8px))'
+      scale: 0.98,
+      y: 5
     },
     animate: { 
       opacity: 1, 
       scale: 1,
-      rotateX: 0,
-      filter: 'blur(0px)',
+      y: 0,
       transition: {
         type: "spring",
-        damping: 18,
-        stiffness: 200,
-        mass: 0.8
+        damping: 20,
+        stiffness: 300
       }
     },
     exit: { 
       opacity: 0,
-      scale: 0.92,
-      rotateX: -5,
-      filter: 'blur(clamp(0px, 8px, 8px))',
+      scale: 0.98,
+      y: -5,
       transition: {
-        duration: 0.3
+        duration: 0.2
       }
     }
   },
   pageTransition: {
-    type: "tween",
-    ease: "anticipate",
-    duration: 0.5
+    type: "spring",
+    damping: 20,
+    stiffness: 300,
+    duration: 0.3
   }
 }
 

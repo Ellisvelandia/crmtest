@@ -122,6 +122,7 @@ export const BirthdayManager = ({
             <CalendarView 
               initialMonth={initialMonth}
               onMonthChange={onMonthChange}
+              clients={filteredClients}
             />
           )}
         </motion.div>

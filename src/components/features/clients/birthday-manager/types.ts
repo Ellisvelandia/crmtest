@@ -28,6 +28,7 @@ export interface ListViewProps {
 export interface CalendarViewProps {
   initialMonth: number
   onMonthChange: (monthIndex: number) => void
+  clients: Client[]
 }
 
 export type ViewType = 'list' | 'calendar'

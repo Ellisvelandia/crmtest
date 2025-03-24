@@ -1,14 +1,17 @@
 import { RouterProvider } from 'react-router-dom'
 import { Toaster } from 'sonner'
 import { router } from './routes'
+import { TooltipProvider } from './components/ui/tooltip'
 import './App.css'
 
 function App() {
   return (
-    <>
-      <RouterProvider router={router} />
-      <Toaster position="top-right" richColors />
-    </>
+    <TooltipProvider>
+      <>
+        <RouterProvider router={router} />
+        <Toaster position="top-right" richColors />
+      </>
+    </TooltipProvider>
   )
 }
 

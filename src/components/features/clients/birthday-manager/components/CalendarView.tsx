@@ -89,6 +89,7 @@ export const CalendarView = ({ initialMonth, onMonthChange, clients }: CalendarV
             {days.map((day, index) => {
               const birthdays = getBirthdays(day)
               const hasBirthdays = birthdays.length > 0
+              const isToday = day.getDate() === new Date().getDate() && isSameMonth(day, new Date())
               
               return (
                 <div
@@ -102,29 +103,70 @@ export const CalendarView = ({ initialMonth, onMonthChange, clients }: CalendarV
                 >
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <div className="relative">
-                        <span className={`
-                          inline-flex items-center justify-center w-8 h-8 text-sm
-                          ${day.getDate() === new Date().getDate() && isSameMonth(day, new Date()) 
-                            ? 'bg-emerald-500 text-white rounded-full' 
-                            : 'text-gray-700'}
+                      <div className={`
+                        relative group cursor-pointer
+                        ${hasBirthdays ? 'animate-pulse-subtle' : ''}
+                      `}>
+                        <div className={`
+                          relative z-10 w-full aspect-square flex items-center justify-center
+                          ${hasBirthdays ? 'bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-lg shadow-sm' : ''}
+                          ${isToday ? 'ring-2 ring-emerald-500 ring-offset-2' : ''}
+                          transition-all duration-200 ease-in-out
+                          group-hover:scale-110 group-hover:shadow-md
                         `}>
-                          {format(day, 'd')}
-                        </span>
+                          <span className={`
+                            text-sm font-medium
+                            ${hasBirthdays ? 'text-emerald-700' : 'text-gray-700'}
+                            ${isToday ? 'text-emerald-600 font-semibold' : ''}
+                          `}>
+                            {format(day, 'd')}
+                          </span>
+                          
+                          {hasBirthdays && (
+                            <div className="absolute top-0 right-0 -mr-1 -mt-1">
+                              <div className="relative">
+                                <div className="absolute inset-0 animate-ping-slow rounded-full bg-emerald-400 opacity-20 w-3 h-3" />
+                                <div className="relative rounded-full bg-emerald-500 w-3 h-3 flex items-center justify-center">
+                                  <span className="text-[8px] text-white font-bold">
+                                    {birthdays.length}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+
                         {hasBirthdays && (
-                          <span className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-1.5 h-1.5 bg-emerald-500 rounded-full" />
+                          <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 flex space-x-0.5">
+                            {birthdays.slice(0, 3).map((_, i) => (
+                              <span 
+                                key={i} 
+                                className="w-1 h-1 rounded-full bg-emerald-500 opacity-75"
+                              />
+                            ))}
+                            {birthdays.length > 3 && (
+                              <span className="w-1 h-1 rounded-full bg-emerald-500 opacity-50" />
+                            )}
+                          </div>
                         )}
                       </div>
                     </TooltipTrigger>
                     {hasBirthdays && (
                       <TooltipContent>
-                        <div className="text-sm">
-                          <p className="font-medium mb-1">Cumpleaños:</p>
-                          {birthdays.map(client => (
-                            <p key={client.customer_id} className="text-xs">
-                              {client.first_name} {client.last_name}
-                            </p>
-                          ))}
+                        <div className="text-sm space-y-2 min-w-[200px]">
+                          <p className="font-medium text-emerald-700 border-b border-emerald-100 pb-1">
+                            🎂 Cumpleaños del día
+                          </p>
+                          <div className="space-y-1.5">
+                            {birthdays.map(client => (
+                              <div key={client.customer_id} className="flex items-center space-x-2">
+                                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                                <p className="text-sm text-gray-700">
+                                  {client.first_name} {client.last_name}
+                                </p>
+                              </div>
+                            ))}
+                          </div>
                         </div>
                       </TooltipContent>
                     )}

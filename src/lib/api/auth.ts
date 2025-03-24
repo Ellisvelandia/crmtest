@@ -10,11 +10,27 @@ export const authApi = {
   // Get current user
   getCurrentUser: async (): Promise<User | null> => {
     try {
-      const { data: { user }, error } = await supabase.auth.getUser()
-      if (error) {
-        console.error('Error getting current user:', error)
+      // First try to get the session
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession()
+      
+      if (sessionError) {
+        console.error('Error getting session:', sessionError)
         return null
       }
+
+      // If no session, return null (user is not logged in)
+      if (!session) {
+        return null
+      }
+
+      // If we have a session, get the user
+      const { data: { user }, error: userError } = await supabase.auth.getUser()
+      
+      if (userError) {
+        console.error('Error getting user:', userError)
+        return null
+      }
+
       return user
     } catch (error) {
       console.error('Unexpected error getting current user:', error)

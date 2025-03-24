@@ -2,16 +2,14 @@ import { Client } from '../../../../types'
 
 export interface BirthdayManagerProps {
   clients: Client[]
-  initialMonth?: number
-  onMonthChange?: (monthIndex: number) => void
+  initialMonth: number
+  onMonthChange: (monthIndex: number) => void
 }
 
 export interface ControlsProps {
-  selectedMonth: number
   selectedView: 'list' | 'calendar'
   sortOrder: 'asc' | 'desc'
   isTransitioning: boolean
-  onMonthSelect: (value: string) => void
   onViewChange: (view: 'list' | 'calendar') => void
   onSortOrderChange: () => void
   onExportCSV: () => void
@@ -28,5 +26,9 @@ export interface ListViewProps {
 }
 
 export interface CalendarViewProps {
-  // Add calendar view props if needed
-} 
+  initialMonth: number
+  onMonthChange: (monthIndex: number) => void
+}
+
+export type ViewType = 'list' | 'calendar'
+export type SortOrderType = 'asc' | 'desc' 

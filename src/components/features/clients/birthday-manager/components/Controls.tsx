@@ -1,25 +1,14 @@
 'use client'
 
-import { format } from 'date-fns'
-import { es } from 'date-fns/locale'
 import { Button } from '../../../../../components/ui/button'
-import { Calendar as CalendarIcon, List, ArrowUpDown, Download, ChevronDown } from 'lucide-react'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '../../../../../components/ui/select'
+import { Calendar as CalendarIcon, List, ArrowUpDown, Download } from 'lucide-react'
 import { Tooltip } from '../../../../../components/ui/tooltip'
 import { ControlsProps } from '../types'
 
 export const Controls = ({
-  selectedMonth,
   selectedView,
   sortOrder,
   isTransitioning,
-  onMonthSelect,
   onViewChange,
   onSortOrderChange,
   onExportCSV,
@@ -27,24 +16,6 @@ export const Controls = ({
 }: ControlsProps) => (
   <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
     <div className="flex flex-wrap gap-4 items-center">
-      <Select
-        value={selectedMonth.toString()}
-        onValueChange={onMonthSelect}
-      >
-        <SelectTrigger className="w-[180px] bg-white border-emerald-100 hover:border-emerald-200 transition-colors" aria-label="Seleccionar mes">
-          <CalendarIcon className="h-4 w-4 mr-2 text-emerald-600" />
-          <SelectValue placeholder="Seleccionar mes" />
-          <ChevronDown className="h-3 w-3 opacity-50 ml-2" />
-        </SelectTrigger>
-        <SelectContent>
-          {Array.from({ length: 12 }, (_, i) => (
-            <SelectItem key={i} value={i.toString()}>
-              {format(new Date(2000, i, 1), 'MMMM', { locale: es })}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-
       <div className="flex items-center gap-2 bg-white rounded-lg border border-emerald-100 p-0.5">
         <Button
           variant={selectedView === 'list' ? 'default' : 'ghost'}

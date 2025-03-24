@@ -6,8 +6,8 @@ import { motion } from 'framer-motion'
 import { Gift } from 'lucide-react'
 import { Card, CardContent } from '../../../../../components/ui/card'
 import { Badge } from '../../../../../components/ui/badge'
-import { ClientListItemProps } from '../types'
 import { animations } from '../animations'
+import { ClientListItemProps } from '../types'
 
 export const ClientListItem = ({ client, index }: ClientListItemProps) => (
   <motion.div
@@ -57,4 +57,4 @@ export const ClientListItem = ({ client, index }: ClientListItemProps) => (
   </motion.div>
 )
 
-export default ClientListItem; 
+export default ClientListItem 

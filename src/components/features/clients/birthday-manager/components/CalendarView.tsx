@@ -2,8 +2,8 @@
 
 import { motion } from 'framer-motion'
 import { Card, CardContent } from '../../../../../components/ui/card'
-import { CalendarViewProps } from '../types'
 import { animations } from '../animations'
+import { CalendarViewProps } from '../types'
 
 export const CalendarView = ({}: CalendarViewProps) => (
   <motion.div
@@ -18,4 +18,4 @@ export const CalendarView = ({}: CalendarViewProps) => (
   </motion.div>
 )
 
-export default CalendarView; 
+export default CalendarView 

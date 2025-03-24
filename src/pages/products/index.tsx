@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/select";
 import { Plus, Package2, Building2, ChevronDown, Search, Filter } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 // Types for our component
 interface Product {
@@ -133,8 +134,10 @@ export default function ProductsPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-center">
             <div className="relative">
+              <Label htmlFor="product-search" className="sr-only">Search products</Label>
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
               <Input
+                id="product-search"
                 type="text"
                 placeholder="Search products..."
                 value={searchQuery}

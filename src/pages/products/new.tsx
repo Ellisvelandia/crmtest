@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -15,11 +15,12 @@ import {
 } from '@/components/ui/select'
 import { toast } from 'sonner'
 import { productsApi } from '@/lib/api/products'
-import { ArrowLeft, Package2, DollarSign, Scale, Diamond, ImagePlus, Tag, Loader2, Plus } from 'lucide-react'
+import { ArrowLeft, Package2, DollarSign, Scale, Diamond, ImagePlus, Tag, Loader2, Plus, X } from 'lucide-react'
 
 export default function NewProductPage() {
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
   const [formData, setFormData] = useState({
     name: '',
     sku: '',
@@ -32,10 +33,34 @@ export default function NewProductPage() {
     purity: '',
     weight: '',
     metadata: {
-      images: [],
+      images: [] as string[],
       specifications: {}
     }
   })
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files
+    if (files) {
+      const newImages = Array.from(files).map(file => URL.createObjectURL(file))
+      setFormData(prev => ({
+        ...prev,
+        metadata: {
+          ...prev.metadata,
+          images: [...prev.metadata.images, ...newImages]
+        }
+      }))
+    }
+  }
+
+  const removeImage = (index: number) => {
+    setFormData(prev => ({
+      ...prev,
+      metadata: {
+        ...prev.metadata,
+        images: prev.metadata.images.filter((_, i) => i !== index)
+      }
+    }))
+  }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -99,9 +124,21 @@ export default function NewProductPage() {
           <form onSubmit={handleSubmit} className="p-6 space-y-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="space-y-6">
-                <div className="p-4 border border-dashed border-emerald-200 rounded-lg bg-emerald-50/50 text-center cursor-pointer hover:bg-emerald-50 transition-colors group">
+                <div 
+                  className="p-4 border border-dashed border-emerald-200 rounded-lg bg-emerald-50/50 text-center cursor-pointer hover:bg-emerald-50 transition-colors group"
+                  onClick={() => fileInputRef.current?.click()}
+                >
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    id="product-images"
+                    multiple
+                    accept="image/*"
+                    className="hidden"
+                    onChange={handleImageUpload}
+                  />
                   <div className="flex flex-col items-center gap-2">
-                    <ImagePlus className="h-8 w-8 text-emerald-500 group-hover:scale-110 transition-transform" />
+                    <ImagePlus className="h-8 w-4 text-emerald-500 group-hover:scale-110 transition-transform" />
                     <div className="space-y-1">
                       <p className="text-sm font-medium text-emerald-700">Add Product Images</p>
                       <p className="text-xs text-emerald-600">Drag & drop or click to upload</p>
@@ -109,13 +146,34 @@ export default function NewProductPage() {
                   </div>
                 </div>
 
+                {formData.metadata.images.length > 0 && (
+                  <div className="grid grid-cols-2 gap-4">
+                    {formData.metadata.images.map((image, index) => (
+                      <div key={index} className="relative group">
+                        <img
+                          src={image}
+                          alt={`Product ${index + 1}`}
+                          className="w-full h-32 object-cover rounded-lg"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => removeImage(index)}
+                          className="absolute -top-2 -right-2 p-1 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                        >
+                          <X className="h-4 w-4" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
                 <div className="space-y-2">
-                  <Label htmlFor="name" className="text-sm font-medium text-gray-700 flex items-center gap-2">
+                  <Label htmlFor="product-name" className="text-sm font-medium text-gray-700 flex items-center gap-2">
                     <Tag className="h-4 w-4 text-emerald-500" />
                     Product Name
                   </Label>
                   <Input
-                    id="name"
+                    id="product-name"
                     value={formData.name}
                     onChange={(e) => handleChange('name', e.target.value)}
                     required
@@ -125,12 +183,12 @@ export default function NewProductPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="sku" className="text-sm font-medium text-gray-700 flex items-center gap-2">
+                  <Label htmlFor="product-sku" className="text-sm font-medium text-gray-700 flex items-center gap-2">
                     <Tag className="h-4 w-4 text-emerald-500" />
                     SKU
                   </Label>
                   <Input
-                    id="sku"
+                    id="product-sku"
                     value={formData.sku}
                     onChange={(e) => handleChange('sku', e.target.value)}
                     required
@@ -141,12 +199,12 @@ export default function NewProductPage() {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="price_usd" className="text-sm font-medium text-gray-700 flex items-center gap-2">
+                    <Label htmlFor="product-price-usd" className="text-sm font-medium text-gray-700 flex items-center gap-2">
                       <DollarSign className="h-4 w-4 text-emerald-500" />
                       Price (USD)
                     </Label>
                     <Input
-                      id="price_usd"
+                      id="product-price-usd"
                       type="number"
                       step="0.01"
                       value={formData.price_usd}
@@ -158,12 +216,12 @@ export default function NewProductPage() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="price_mxn" className="text-sm font-medium text-gray-700 flex items-center gap-2">
+                    <Label htmlFor="product-price-mxn" className="text-sm font-medium text-gray-700 flex items-center gap-2">
                       <DollarSign className="h-4 w-4 text-emerald-500" />
                       Price (MXN)
                     </Label>
                     <Input
-                      id="price_mxn"
+                      id="product-price-mxn"
                       type="number"
                       step="0.01"
                       value={formData.price_mxn}
@@ -178,7 +236,7 @@ export default function NewProductPage() {
 
               <div className="space-y-6">
                 <div className="space-y-2">
-                  <Label htmlFor="material" className="text-sm font-medium text-gray-700 flex items-center gap-2">
+                  <Label htmlFor="product-material" className="text-sm font-medium text-gray-700 flex items-center gap-2">
                     <Diamond className="h-4 w-4 text-emerald-500" />
                     Material
                   </Label>
@@ -223,7 +281,7 @@ export default function NewProductPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="purity" className="text-sm font-medium text-gray-700 flex items-center gap-2">
+                  <Label htmlFor="product-purity" className="text-sm font-medium text-gray-700 flex items-center gap-2">
                     <Diamond className="h-4 w-4 text-emerald-500" />
                     Purity
                   </Label>
@@ -269,12 +327,12 @@ export default function NewProductPage() {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="weight" className="text-sm font-medium text-gray-700 flex items-center gap-2">
+                    <Label htmlFor="product-weight" className="text-sm font-medium text-gray-700 flex items-center gap-2">
                       <Scale className="h-4 w-4 text-emerald-500" />
                       Weight (g)
                     </Label>
                     <Input
-                      id="weight"
+                      id="product-weight"
                       type="number"
                       step="0.01"
                       value={formData.weight}
@@ -286,12 +344,12 @@ export default function NewProductPage() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="brand" className="text-sm font-medium text-gray-700 flex items-center gap-2">
+                    <Label htmlFor="product-brand" className="text-sm font-medium text-gray-700 flex items-center gap-2">
                       <Tag className="h-4 w-4 text-emerald-500" />
                       Brand
                     </Label>
                     <Input
-                      id="brand"
+                      id="product-brand"
                       value={formData.brand}
                       onChange={(e) => handleChange('brand', e.target.value)}
                       placeholder="Enter brand"
@@ -303,12 +361,12 @@ export default function NewProductPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="description" className="text-sm font-medium text-gray-700 flex items-center gap-2">
+              <Label htmlFor="product-description" className="text-sm font-medium text-gray-700 flex items-center gap-2">
                 <Tag className="h-4 w-4 text-emerald-500" />
                 Description
               </Label>
               <Textarea
-                id="description"
+                id="product-description"
                 value={formData.description}
                 onChange={(e) => handleChange('description', e.target.value)}
                 className="min-h-[120px] border-emerald-200 focus:border-emerald-500 focus:ring-emerald-500 transition-colors"

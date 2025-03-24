@@ -1,14 +1,21 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
-import { Card } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { toast } from 'sonner'
 import { productsApi } from '@/lib/api/products'
-import { ArrowLeft } from 'lucide-react'
+import { ArrowLeft, Package2, DollarSign, Scale, Diamond, ImagePlus, Tag, Loader2, Plus } from 'lucide-react'
 
 export default function NewProductPage() {
   const navigate = useNavigate()
@@ -63,169 +70,282 @@ export default function NewProductPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50/30 to-emerald-100/30">
-      <div className="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between mb-8">
-          <div>
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50/30 to-emerald-100/30 py-8">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 bg-white p-6 rounded-xl shadow-sm border border-emerald-100/50">
+          <div className="space-y-1">
             <h1 className="text-2xl font-semibold text-gray-900">Add New Product</h1>
-            <p className="mt-1 text-sm text-emerald-600">Add a new product to the inventory</p>
+            <p className="text-sm text-emerald-600 flex items-center gap-2">
+              <Package2 className="h-4 w-4" />
+              Create a new product in the inventory
+            </p>
           </div>
-          <button
+          <Button
             onClick={() => navigate('/products')}
-            className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-emerald-700 hover:text-emerald-800 hover:bg-emerald-50 rounded-md transition-colors"
+            variant="ghost"
+            className="text-emerald-700 hover:text-emerald-800 hover:bg-emerald-50 group"
           >
-            <ArrowLeft className="h-4 w-4" />
+            <ArrowLeft className="h-4 w-4 mr-2 group-hover:-translate-x-1 transition-transform" />
             Back to Products
-          </button>
+          </Button>
         </div>
 
-        <div className="bg-white shadow-lg rounded-xl border border-emerald-100">
+        <div className="bg-white shadow-sm rounded-xl border border-emerald-100/50 overflow-hidden">
           <div className="px-6 py-4 border-b border-emerald-100 bg-emerald-50/50">
             <h2 className="text-lg font-medium text-gray-900">Product Information</h2>
-            <p className="mt-1 text-sm text-emerald-600">Fill in the product details below</p>
+            <p className="mt-1 text-sm text-emerald-600">Fill in the details below to create a new product</p>
           </div>
 
-          <div className="p-6">
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <form onSubmit={handleSubmit} className="p-6 space-y-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="space-y-6">
+                <div className="p-4 border border-dashed border-emerald-200 rounded-lg bg-emerald-50/50 text-center cursor-pointer hover:bg-emerald-50 transition-colors group">
+                  <div className="flex flex-col items-center gap-2">
+                    <ImagePlus className="h-8 w-8 text-emerald-500 group-hover:scale-110 transition-transform" />
+                    <div className="space-y-1">
+                      <p className="text-sm font-medium text-emerald-700">Add Product Images</p>
+                      <p className="text-xs text-emerald-600">Drag & drop or click to upload</p>
+                    </div>
+                  </div>
+                </div>
+
                 <div className="space-y-2">
-                  <Label htmlFor="name" className="text-gray-700">Product Name</Label>
+                  <Label htmlFor="name" className="text-sm font-medium text-gray-700 flex items-center gap-2">
+                    <Tag className="h-4 w-4 text-emerald-500" />
+                    Product Name
+                  </Label>
                   <Input
                     id="name"
                     value={formData.name}
                     onChange={(e) => handleChange('name', e.target.value)}
                     required
-                    className="border-emerald-200 focus:border-emerald-500 focus:ring-emerald-500"
+                    placeholder="Enter product name"
+                    className="border-emerald-200 focus:border-emerald-500 focus:ring-emerald-500 transition-colors"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="sku" className="text-gray-700">SKU</Label>
+                  <Label htmlFor="sku" className="text-sm font-medium text-gray-700 flex items-center gap-2">
+                    <Tag className="h-4 w-4 text-emerald-500" />
+                    SKU
+                  </Label>
                   <Input
                     id="sku"
                     value={formData.sku}
                     onChange={(e) => handleChange('sku', e.target.value)}
                     required
-                    className="border-emerald-200 focus:border-emerald-500 focus:ring-emerald-500"
+                    placeholder="Enter SKU"
+                    className="border-emerald-200 focus:border-emerald-500 focus:ring-emerald-500 transition-colors"
                   />
                 </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="price_usd" className="text-gray-700">Price (USD)</Label>
-                  <Input
-                    id="price_usd"
-                    type="number"
-                    step="0.01"
-                    value={formData.price_usd}
-                    onChange={(e) => handleChange('price_usd', e.target.value)}
-                    required
-                    className="border-emerald-200 focus:border-emerald-500 focus:ring-emerald-500"
-                  />
-                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="price_usd" className="text-sm font-medium text-gray-700 flex items-center gap-2">
+                      <DollarSign className="h-4 w-4 text-emerald-500" />
+                      Price (USD)
+                    </Label>
+                    <Input
+                      id="price_usd"
+                      type="number"
+                      step="0.01"
+                      value={formData.price_usd}
+                      onChange={(e) => handleChange('price_usd', e.target.value)}
+                      required
+                      placeholder="0.00"
+                      className="border-emerald-200 focus:border-emerald-500 focus:ring-emerald-500 transition-colors"
+                    />
+                  </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="price_mxn" className="text-gray-700">Price (MXN)</Label>
-                  <Input
-                    id="price_mxn"
-                    type="number"
-                    step="0.01"
-                    value={formData.price_mxn}
-                    onChange={(e) => handleChange('price_mxn', e.target.value)}
-                    required
-                    className="border-emerald-200 focus:border-emerald-500 focus:ring-emerald-500"
-                  />
+                  <div className="space-y-2">
+                    <Label htmlFor="price_mxn" className="text-sm font-medium text-gray-700 flex items-center gap-2">
+                      <DollarSign className="h-4 w-4 text-emerald-500" />
+                      Price (MXN)
+                    </Label>
+                    <Input
+                      id="price_mxn"
+                      type="number"
+                      step="0.01"
+                      value={formData.price_mxn}
+                      onChange={(e) => handleChange('price_mxn', e.target.value)}
+                      required
+                      placeholder="0.00"
+                      className="border-emerald-200 focus:border-emerald-500 focus:ring-emerald-500 transition-colors"
+                    />
+                  </div>
                 </div>
+              </div>
 
+              <div className="space-y-6">
                 <div className="space-y-2">
-                  <Label htmlFor="material" className="text-gray-700">Material</Label>
+                  <Label htmlFor="material" className="text-sm font-medium text-gray-700 flex items-center gap-2">
+                    <Diamond className="h-4 w-4 text-emerald-500" />
+                    Material
+                  </Label>
                   <Select
                     value={formData.material}
                     onValueChange={(value) => handleChange('material', value)}
                   >
-                    <SelectTrigger className="border-emerald-200 focus:border-emerald-500 focus:ring-emerald-500">
-                      <SelectValue placeholder="Select material" />
+                    <SelectTrigger 
+                      className="border-emerald-200 hover:border-emerald-300 focus:border-emerald-500 focus:ring-emerald-500 group transition-colors"
+                      aria-label="Select material"
+                    >
+                      <div className="flex items-center gap-2">
+                        <Diamond className="h-4 w-4 text-emerald-500 group-hover:text-emerald-600 transition-colors" />
+                        <SelectValue placeholder="Select material" />
+                      </div>
                     </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="gold">Gold</SelectItem>
-                      <SelectItem value="silver">Silver</SelectItem>
-                      <SelectItem value="platinum">Platinum</SelectItem>
-                      <SelectItem value="other">Other</SelectItem>
+                    <SelectContent className="bg-white border border-emerald-100 shadow-lg rounded-lg">
+                      <SelectGroup>
+                        <SelectLabel className="text-xs font-medium text-emerald-600 px-2 py-1.5">
+                          Available Materials
+                        </SelectLabel>
+                        {[
+                          { value: 'gold', label: 'Gold', icon: <Diamond className="h-4 w-4 text-yellow-500" /> },
+                          { value: 'silver', label: 'Silver', icon: <Diamond className="h-4 w-4 text-gray-400" /> },
+                          { value: 'platinum', label: 'Platinum', icon: <Diamond className="h-4 w-4 text-gray-600" /> },
+                          { value: 'other', label: 'Other', icon: <Diamond className="h-4 w-4 text-emerald-500" /> }
+                        ].map((item) => (
+                          <SelectItem 
+                            key={item.value} 
+                            value={item.value}
+                            className="hover:bg-emerald-50 focus:bg-emerald-50 focus:text-emerald-700 cursor-pointer transition-colors"
+                          >
+                            <div className="flex items-center gap-2">
+                              {item.icon}
+                              {item.label}
+                            </div>
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
                     </SelectContent>
                   </Select>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="purity" className="text-gray-700">Purity</Label>
+                  <Label htmlFor="purity" className="text-sm font-medium text-gray-700 flex items-center gap-2">
+                    <Diamond className="h-4 w-4 text-emerald-500" />
+                    Purity
+                  </Label>
                   <Select
                     value={formData.purity}
                     onValueChange={(value) => handleChange('purity', value)}
                   >
-                    <SelectTrigger className="border-emerald-200 focus:border-emerald-500 focus:ring-emerald-500">
-                      <SelectValue placeholder="Select purity" />
+                    <SelectTrigger 
+                      className="border-emerald-200 hover:border-emerald-300 focus:border-emerald-500 focus:ring-emerald-500 group transition-colors"
+                      aria-label="Select purity"
+                    >
+                      <div className="flex items-center gap-2">
+                        <Diamond className="h-4 w-4 text-emerald-500 group-hover:text-emerald-600 transition-colors" />
+                        <SelectValue placeholder="Select purity" />
+                      </div>
                     </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="24k">24K</SelectItem>
-                      <SelectItem value="18k">18K</SelectItem>
-                      <SelectItem value="14k">14K</SelectItem>
-                      <SelectItem value="925">925 Sterling</SelectItem>
+                    <SelectContent className="bg-white border border-emerald-100 shadow-lg rounded-lg">
+                      <SelectGroup>
+                        <SelectLabel className="text-xs font-medium text-emerald-600 px-2 py-1.5">
+                          Material Purity
+                        </SelectLabel>
+                        {[
+                          { value: '24k', label: '24K Gold', icon: <Diamond className="h-4 w-4 text-yellow-500" /> },
+                          { value: '18k', label: '18K Gold', icon: <Diamond className="h-4 w-4 text-yellow-400" /> },
+                          { value: '14k', label: '14K Gold', icon: <Diamond className="h-4 w-4 text-yellow-300" /> },
+                          { value: '925', label: '925 Sterling Silver', icon: <Diamond className="h-4 w-4 text-gray-400" /> }
+                        ].map((item) => (
+                          <SelectItem 
+                            key={item.value} 
+                            value={item.value}
+                            className="hover:bg-emerald-50 focus:bg-emerald-50 focus:text-emerald-700 cursor-pointer transition-colors"
+                          >
+                            <div className="flex items-center gap-2">
+                              {item.icon}
+                              {item.label}
+                            </div>
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
                     </SelectContent>
                   </Select>
                 </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="weight" className="text-gray-700">Weight (g)</Label>
-                  <Input
-                    id="weight"
-                    type="number"
-                    step="0.01"
-                    value={formData.weight}
-                    onChange={(e) => handleChange('weight', e.target.value)}
-                    required
-                    className="border-emerald-200 focus:border-emerald-500 focus:ring-emerald-500"
-                  />
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="weight" className="text-sm font-medium text-gray-700 flex items-center gap-2">
+                      <Scale className="h-4 w-4 text-emerald-500" />
+                      Weight (g)
+                    </Label>
+                    <Input
+                      id="weight"
+                      type="number"
+                      step="0.01"
+                      value={formData.weight}
+                      onChange={(e) => handleChange('weight', e.target.value)}
+                      required
+                      placeholder="0.00"
+                      className="border-emerald-200 focus:border-emerald-500 focus:ring-emerald-500 transition-colors"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="brand" className="text-sm font-medium text-gray-700 flex items-center gap-2">
+                      <Tag className="h-4 w-4 text-emerald-500" />
+                      Brand
+                    </Label>
+                    <Input
+                      id="brand"
+                      value={formData.brand}
+                      onChange={(e) => handleChange('brand', e.target.value)}
+                      placeholder="Enter brand"
+                      className="border-emerald-200 focus:border-emerald-500 focus:ring-emerald-500 transition-colors"
+                    />
+                  </div>
                 </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="brand" className="text-gray-700">Brand</Label>
-                  <Input
-                    id="brand"
-                    value={formData.brand}
-                    onChange={(e) => handleChange('brand', e.target.value)}
-                    className="border-emerald-200 focus:border-emerald-500 focus:ring-emerald-500"
-                  />
-                </div>
               </div>
+            </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="description" className="text-gray-700">Description</Label>
-                <Textarea
-                  id="description"
-                  value={formData.description}
-                  onChange={(e) => handleChange('description', e.target.value)}
-                  className="min-h-[120px] border-emerald-200 focus:border-emerald-500 focus:ring-emerald-500"
-                  required
-                />
-              </div>
+            <div className="space-y-2">
+              <Label htmlFor="description" className="text-sm font-medium text-gray-700 flex items-center gap-2">
+                <Tag className="h-4 w-4 text-emerald-500" />
+                Description
+              </Label>
+              <Textarea
+                id="description"
+                value={formData.description}
+                onChange={(e) => handleChange('description', e.target.value)}
+                className="min-h-[120px] border-emerald-200 focus:border-emerald-500 focus:ring-emerald-500 transition-colors"
+                placeholder="Enter product description"
+                required
+              />
+            </div>
 
-              <div className="flex justify-end gap-4 pt-6 border-t border-emerald-100">
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => navigate('/products')}
-                  className="text-emerald-700 hover:text-emerald-800 border-emerald-200 hover:bg-emerald-50"
-                >
-                  Cancel
-                </Button>
-                <Button 
-                  type="submit" 
-                  disabled={loading}
-                  className="bg-emerald-600 hover:bg-emerald-700 text-white"
-                >
-                  {loading ? 'Creating...' : 'Create Product'}
-                </Button>
-              </div>
-            </form>
-          </div>
+            <div className="flex justify-end gap-4 pt-6 border-t border-emerald-100">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => navigate('/products')}
+                className="text-emerald-700 hover:text-emerald-800 border-emerald-200 hover:bg-emerald-50 transition-colors"
+                disabled={loading}
+              >
+                Cancel
+              </Button>
+              <Button 
+                type="submit" 
+                disabled={loading}
+                className="bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm transition-all duration-200 hover:shadow flex items-center gap-2"
+              >
+                {loading ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    Creating...
+                  </>
+                ) : (
+                  <>
+                    <Plus className="h-4 w-4" />
+                    Create Product
+                  </>
+                )}
+              </Button>
+            </div>
+          </form>
         </div>
       </div>
     </div>

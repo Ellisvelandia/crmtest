@@ -103,65 +103,113 @@ export const ClientSearch: FC<ClientSearchProps> = ({
                 </SelectTrigger>
                 <SelectContent 
                   className="bg-white border border-gray-200 shadow-lg rounded-md 
-                    min-w-[200px] animate-in fade-in-0 zoom-in-95"
+                    min-w-[200px] animate-in fade-in-0 zoom-in-95 overflow-hidden"
                   position="popper"
                   sideOffset={4}
                 >
                   <div 
-                    className="p-1 space-y-0.5" 
+                    className="p-1" 
                     role="listbox" 
                     aria-label="Search field options"
                   >
                     <SelectItem 
                       value="customer_id" 
-                      className="rounded-md py-2 px-3 text-sm cursor-pointer
-                        hover:bg-emerald-50 hover:text-emerald-700
-                        focus:bg-emerald-50 focus:text-emerald-700
-                        data-[state=checked]:bg-emerald-50 data-[state=checked]:text-emerald-700
-                        transition-colors duration-150"
+                      className="group relative flex items-center py-2 pl-3 pr-8 text-sm cursor-pointer
+                        hover:bg-emerald-50/40 data-[state=checked]:bg-gradient-to-r 
+                        data-[state=checked]:from-emerald-50/80 data-[state=checked]:to-transparent
+                        transition-all duration-200 ease-in-out"
                     >
-                      <div className="flex items-center gap-2">
-                        <UserIcon className="h-4 w-4" />
-                        <span>Client ID</span>
+                      <div className="flex items-center gap-3 min-w-[140px]">
+                        <span className="relative flex items-center justify-center">
+                          <UserIcon className="h-4 w-4 text-gray-500 
+                            group-hover:text-emerald-600 
+                            group-data-[state=checked]:text-emerald-600
+                            transition-colors duration-200" 
+                          />
+                          <span className="absolute inset-0 rounded-full
+                            group-data-[state=checked]:ring-2 group-data-[state=checked]:ring-emerald-200/50
+                            group-data-[state=checked]:ring-offset-2 group-data-[state=checked]:ring-offset-white
+                            transition-all duration-200">
+                          </span>
+                        </span>
+                        <span className="text-gray-700 group-hover:text-emerald-700 
+                          group-data-[state=checked]:text-emerald-700 group-data-[state=checked]:font-medium
+                          transition-all duration-200">Client ID</span>
                       </div>
                     </SelectItem>
                     <SelectItem 
                       value="name" 
-                      className="rounded-md py-2 px-3 text-sm cursor-pointer
-                        hover:bg-emerald-50 hover:text-emerald-700
-                        focus:bg-emerald-50 focus:text-emerald-700
-                        data-[state=checked]:bg-emerald-50 data-[state=checked]:text-emerald-700
-                        transition-colors duration-150"
+                      className="group relative flex items-center py-2 pl-3 pr-8 text-sm cursor-pointer
+                        hover:bg-emerald-50/40 data-[state=checked]:bg-gradient-to-r 
+                        data-[state=checked]:from-emerald-50/80 data-[state=checked]:to-transparent
+                        transition-all duration-200 ease-in-out"
                     >
-                      <div className="flex items-center gap-2">
-                        <TextIcon className="h-4 w-4" />
-                        <span>Name</span>
+                      <div className="flex items-center gap-3 min-w-[140px]">
+                        <span className="relative flex items-center justify-center">
+                          <TextIcon className="h-4 w-4 text-gray-500 
+                            group-hover:text-emerald-600 
+                            group-data-[state=checked]:text-emerald-600
+                            transition-colors duration-200" 
+                          />
+                          <span className="absolute inset-0 rounded-full
+                            group-data-[state=checked]:ring-2 group-data-[state=checked]:ring-emerald-200/50
+                            group-data-[state=checked]:ring-offset-2 group-data-[state=checked]:ring-offset-white
+                            transition-all duration-200">
+                          </span>
+                        </span>
+                        <span className="text-gray-700 group-hover:text-emerald-700 
+                          group-data-[state=checked]:text-emerald-700 group-data-[state=checked]:font-medium
+                          transition-all duration-200">Name</span>
                       </div>
                     </SelectItem>
                     <SelectItem 
                       value="email" 
-                      className="rounded-md py-2 px-3 text-sm cursor-pointer
-                        hover:bg-emerald-50 hover:text-emerald-700
-                        focus:bg-emerald-50 focus:text-emerald-700
-                        data-[state=checked]:bg-emerald-50 data-[state=checked]:text-emerald-700
-                        transition-colors duration-150"
+                      className="group relative flex items-center py-2 pl-3 pr-8 text-sm cursor-pointer
+                        hover:bg-emerald-50/40 data-[state=checked]:bg-gradient-to-r 
+                        data-[state=checked]:from-emerald-50/80 data-[state=checked]:to-transparent
+                        transition-all duration-200 ease-in-out"
                     >
-                      <div className="flex items-center gap-2">
-                        <MailIcon className="h-4 w-4" />
-                        <span>Email</span>
+                      <div className="flex items-center gap-3 min-w-[140px]">
+                        <span className="relative flex items-center justify-center">
+                          <MailIcon className="h-4 w-4 text-gray-500 
+                            group-hover:text-emerald-600 
+                            group-data-[state=checked]:text-emerald-600
+                            transition-colors duration-200" 
+                          />
+                          <span className="absolute inset-0 rounded-full
+                            group-data-[state=checked]:ring-2 group-data-[state=checked]:ring-emerald-200/50
+                            group-data-[state=checked]:ring-offset-2 group-data-[state=checked]:ring-offset-white
+                            transition-all duration-200">
+                          </span>
+                        </span>
+                        <span className="text-gray-700 group-hover:text-emerald-700 
+                          group-data-[state=checked]:text-emerald-700 group-data-[state=checked]:font-medium
+                          transition-all duration-200">Email</span>
                       </div>
                     </SelectItem>
                     <SelectItem 
                       value="phone" 
-                      className="rounded-md py-2 px-3 text-sm cursor-pointer
-                        hover:bg-emerald-50 hover:text-emerald-700
-                        focus:bg-emerald-50 focus:text-emerald-700
-                        data-[state=checked]:bg-emerald-50 data-[state=checked]:text-emerald-700
-                        transition-colors duration-150"
+                      className="group relative flex items-center py-2 pl-3 pr-8 text-sm cursor-pointer
+                        hover:bg-emerald-50/40 data-[state=checked]:bg-gradient-to-r 
+                        data-[state=checked]:from-emerald-50/80 data-[state=checked]:to-transparent
+                        transition-all duration-200 ease-in-out"
                     >
-                      <div className="flex items-center gap-2">
-                        <PhoneIcon className="h-4 w-4" />
-                        <span>Phone</span>
+                      <div className="flex items-center gap-3 min-w-[140px]">
+                        <span className="relative flex items-center justify-center">
+                          <PhoneIcon className="h-4 w-4 text-gray-500 
+                            group-hover:text-emerald-600 
+                            group-data-[state=checked]:text-emerald-600
+                            transition-colors duration-200" 
+                          />
+                          <span className="absolute inset-0 rounded-full
+                            group-data-[state=checked]:ring-2 group-data-[state=checked]:ring-emerald-200/50
+                            group-data-[state=checked]:ring-offset-2 group-data-[state=checked]:ring-offset-white
+                            transition-all duration-200">
+                          </span>
+                        </span>
+                        <span className="text-gray-700 group-hover:text-emerald-700 
+                          group-data-[state=checked]:text-emerald-700 group-data-[state=checked]:font-medium
+                          transition-all duration-200">Phone</span>
                       </div>
                     </SelectItem>
                   </div>

@@ -5,6 +5,7 @@ import ClientsPage from '../pages/clients'
 import NewClientPage from '../pages/clients/new'
 import ClientDetailsPage from '../pages/clients/[id]'
 import ProductsPage from '../pages/products'
+import NewProductPage from '../pages/products/new'
 import SalesPage from '../pages/sales'
 import ErrorPage from '../pages/error'
 import LoginPage from '../pages/auth/login'
@@ -93,7 +94,16 @@ export const router = createBrowserRouter([
       },
       {
         path: 'products',
-        element: <ProductsPage />
+        children: [
+          {
+            index: true,
+            element: <ProductsPage />
+          },
+          {
+            path: 'new',
+            element: <NewProductPage />
+          }
+        ]
       },
       {
         path: 'sales',

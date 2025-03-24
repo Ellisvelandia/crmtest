@@ -1,193 +1,222 @@
-'use client'
+"use client";
 
-import { useState, useEffect } from 'react'
-import { Client } from '../../types'
-import { BirthdayManager } from '../../components/features/clients/BirthdayManager'
-import { motion } from 'framer-motion'
-import { supabase } from '../../lib/supabase/config'
-import { Loader2, Calendar, Gift, ChevronLeft, ChevronRight } from 'lucide-react'
-import { Button } from '../../components/ui/button'
-import { addMonths, format } from 'date-fns'
-import { es } from 'date-fns/locale'
+import { useState, useEffect } from "react";
+import { ChevronLeft, ChevronRight, Gift, CalendarDays } from "lucide-react";
+import { format } from "date-fns";
+import { es } from "date-fns/locale";
+import { BirthdayManager } from "../../components/features/clients/BirthdayManager";
+import { Client } from "../../types";
+import { supabase } from "../../lib/supabase/config";
 
-const BirthdaysPage = () => {
-  const [clients, setClients] = useState<Client[]>([])
-  const [isLoading, setIsLoading] = useState(true)
-  const [currentMonth, setCurrentMonth] = useState(new Date())
-  const [selectedMonthIndex, setSelectedMonthIndex] = useState<number>(new Date().getMonth())
+// Simple spinner component
+const Spinner = ({ className }: { className?: string }) => (
+  <svg
+    className={className}
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+  </svg>
+);
+
+export default function BirthdaysPage() {
+  const [clients, setClients] = useState<Client[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const currentMonth = new Date().getMonth();
+  const [selectedMonthIndex, setSelectedMonthIndex] = useState(currentMonth);
 
   useEffect(() => {
-    const fetchClients = async () => {
+    async function loadData() {
       try {
+        // Fetch clients from Supabase
         const { data, error } = await supabase
-          .from('clients')
-          .select('*')
-          .order('last_name', { ascending: true })
+          .from("clients")
+          .select("*")
+          .order("last_name", { ascending: true });
 
-        if (error) throw error
-        setClients(data || [])
-      } catch (error) {
-        console.error('Error fetching clients:', error)
-      } finally {
-        setIsLoading(false)
+        if (error) throw error;
+
+        setClients(data || []);
+        setLoading(false);
+      } catch (err) {
+        console.error("Error fetching clients:", err);
+        setError("Error al cargar los datos de clientes");
+        setLoading(false);
       }
     }
 
-    fetchClients()
-  }, [])
-
-  // Update selected month index when current month changes
-  useEffect(() => {
-    setSelectedMonthIndex(currentMonth.getMonth())
-  }, [currentMonth])
-
-  // Get current month birthdays
-  const currentMonthBirthdays = clients.filter(
-    client => new Date(client.date_of_birth).getMonth() === currentMonth.getMonth()
-  )
-
-  // Get upcoming birthdays (next month)
-  const nextMonthIndex = (currentMonth.getMonth() + 1) % 12
-  const nextMonthBirthdays = clients.filter(
-    client => new Date(client.date_of_birth).getMonth() === nextMonthIndex
-  )
-
-  // Handle month navigation
-  const goToPreviousMonth = () => {
-    setCurrentMonth(prev => addMonths(prev, -1))
-  }
-
-  const goToNextMonth = () => {
-    setCurrentMonth(prev => addMonths(prev, 1))
-  }
+    loadData();
+  }, []);
 
   // Handle month change from BirthdayManager
   const handleBirthdayManagerMonthChange = (monthIndex: number) => {
-    setSelectedMonthIndex(monthIndex)
-    setCurrentMonth(new Date(currentMonth.getFullYear(), monthIndex, 1))
-  }
+    setSelectedMonthIndex(monthIndex);
+  };
+
+  // Go to previous month
+  const goToPreviousMonth = () => {
+    const newMonthIndex = (selectedMonthIndex - 1 + 12) % 12;
+    setSelectedMonthIndex(newMonthIndex);
+  };
+
+  // Go to next month
+  const goToNextMonth = () => {
+    const newMonthIndex = (selectedMonthIndex + 1) % 12;
+    setSelectedMonthIndex(newMonthIndex);
+  };
+
+  // Calculate birthday statistics
+  const calculateBirthdayStats = (clients: Client[], monthIndex: number) => {
+    return clients.filter((client) => {
+      const birthDate = new Date(client.date_of_birth);
+      return birthDate.getMonth() === monthIndex;
+    }).length;
+  };
+
+  const currentMonthBirthdays = calculateBirthdayStats(clients, currentMonth);
+  const nextMonthBirthdays = calculateBirthdayStats(
+    clients,
+    (currentMonth + 1) % 12
+  );
 
   return (
     <div className="min-h-screen bg-[#f8fafc]">
       <div className="relative">
-        {/* Enhanced gradient background */}
-        <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-emerald-50/70 via-emerald-50/30 to-transparent pointer-events-none" />
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-            className="space-y-8"
-          >
-            {/* Enhanced Header Section */}
-            <div className="relative z-10">
-              <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-                className="flex flex-col md:flex-row md:items-center md:justify-between gap-6"
-              >
-                <div className="space-y-2">
-                  <h1 className="text-3xl font-bold text-gray-900">
-                    Gestión de Cumpleaños
-                  </h1>
-                  <p className="text-base text-gray-600">
-                    Administrar y monitorear cumpleaños de clientes
-                  </p>
-                </div>
+        {/* Gradient background effect */}
+        <div className="absolute inset-0 bg-gradient-to-b from-emerald-50 to-white h-72 w-full -z-10" />
+        <div className="absolute inset-0 bg-grid-pattern opacity-5 h-72 w-full -z-5" />
 
-                {/* Month Navigation and Stats Cards */}
-                <div className="flex flex-col gap-4">
-                  <div className="flex items-center justify-between gap-2 p-2 bg-white rounded-lg border border-emerald-100 shadow-sm">
-                    <Button 
-                      variant="ghost" 
-                      size="icon" 
-                      onClick={goToPreviousMonth}
-                      className="h-8 w-8"
-                    >
-                      <ChevronLeft className="h-4 w-4 text-emerald-600" />
-                    </Button>
-                    <h3 className="text-sm font-medium text-emerald-800">
-                      {format(currentMonth, 'MMMM yyyy', { locale: es })}
-                    </h3>
-                    <Button 
-                      variant="ghost" 
-                      size="icon" 
-                      onClick={goToNextMonth}
-                      className="h-8 w-8"
-                    >
-                      <ChevronRight className="h-4 w-4 text-emerald-600" />
-                    </Button>
-                  </div>
-                
-                  <div className="flex flex-col sm:flex-row gap-4">
-                    <motion.div
-                      whileHover={{ scale: 1.02 }}
-                      className="flex items-center gap-3 p-4 bg-white rounded-lg border border-emerald-100 shadow-sm"
-                    >
-                      <div className="rounded-full bg-emerald-50 p-2">
-                        <Gift className="h-5 w-5 text-emerald-600" />
-                      </div>
-                      <div>
-                        <p className="text-sm font-medium text-gray-600">Este Mes</p>
-                        <p className="text-2xl font-semibold text-emerald-600">
-                          {currentMonthBirthdays.length}
-                        </p>
-                      </div>
-                    </motion.div>
-
-                    <motion.div
-                      whileHover={{ scale: 1.02 }}
-                      className="flex items-center gap-3 p-4 bg-white rounded-lg border border-emerald-100 shadow-sm"
-                    >
-                      <div className="rounded-full bg-emerald-50 p-2">
-                        <Calendar className="h-5 w-5 text-emerald-600" />
-                      </div>
-                      <div>
-                        <p className="text-sm font-medium text-gray-600">Próximo Mes</p>
-                        <p className="text-2xl font-semibold text-emerald-600">
-                          {nextMonthBirthdays.length}
-                        </p>
-                      </div>
-                    </motion.div>
-                  </div>
-                </div>
-              </motion.div>
+        <div className="container mx-auto px-4 py-8">
+          {/* Header */}
+          <div className="flex flex-col space-y-8 pb-8">
+            <div className="flex flex-col space-y-2">
+              <h1 className="text-3xl font-bold text-gray-900 tracking-tight">
+                Cumpleaños de Clientes
+              </h1>
+              <p className="text-gray-600 max-w-3xl">
+                Gestiona y haz seguimiento de los cumpleaños de tus clientes.
+                Recibe notificaciones cuando se acerquen fechas importantes.
+              </p>
             </div>
 
-            {/* Birthday Manager Section */}
-            {isLoading ? (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="flex flex-col items-center justify-center py-16 gap-4"
-              >
-                <Loader2 className="h-8 w-8 text-emerald-600 animate-spin" />
-                <p className="text-sm text-gray-600">Cargando datos de clientes...</p>
-              </motion.div>
-            ) : (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4 }}
-              >
-                <div className="w-full bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-                  <div className="p-6 w-full">
-                    <BirthdayManager 
-                      clients={clients} 
-                      initialMonth={selectedMonthIndex}
-                      onMonthChange={handleBirthdayManagerMonthChange}
-                    />
+            {/* Month Navigation */}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <button
+                  onClick={goToPreviousMonth}
+                  className="p-2 rounded-full bg-white text-gray-600 hover:bg-emerald-50 hover:text-emerald-600 border border-emerald-100 transition-colors"
+                  aria-label="Mes anterior"
+                >
+                  <ChevronLeft className="h-5 w-5" />
+                </button>
+
+                <h2 className="text-xl font-semibold text-gray-800 capitalize">
+                  {format(new Date(2023, selectedMonthIndex), "MMMM yyyy", {
+                    locale: es,
+                  })}
+                </h2>
+
+                <button
+                  onClick={goToNextMonth}
+                  className="p-2 rounded-full bg-white text-gray-600 hover:bg-emerald-50 hover:text-emerald-600 border border-emerald-100 transition-colors"
+                  aria-label="Mes siguiente"
+                >
+                  <ChevronRight className="h-5 w-5" />
+                </button>
+              </div>
+
+              {/* Stats */}
+              <div className="hidden md:flex space-x-4">
+                <div className="flex items-center space-x-3 p-3 bg-white rounded-lg border border-emerald-100 shadow-sm">
+                  <div className="rounded-full bg-emerald-50 p-2">
+                    <Gift className="h-5 w-5 text-emerald-600" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-gray-700">
+                      Cumpleaños este mes
+                    </p>
+                    <p className="text-2xl font-bold text-emerald-600">
+                      {currentMonthBirthdays}
+                    </p>
                   </div>
                 </div>
-              </motion.div>
+
+                <div className="flex items-center space-x-3 p-3 bg-white rounded-lg border border-emerald-100 shadow-sm">
+                  <div className="rounded-full bg-emerald-50 p-2">
+                    <CalendarDays className="h-5 w-5 text-emerald-600" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-gray-700">
+                      Próximo mes
+                    </p>
+                    <p className="text-2xl font-bold text-emerald-600">
+                      {nextMonthBirthdays}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Content */}
+          <div className="pb-12">
+            {loading ? (
+              <div className="flex justify-center items-center h-96">
+                <div className="text-center">
+                  <Spinner className="h-12 w-12 text-emerald-500 mx-auto animate-spin" />
+                  <p className="mt-4 text-gray-600">
+                    Cargando datos de clientes...
+                  </p>
+                </div>
+              </div>
+            ) : error ? (
+              <div className="flex justify-center items-center h-96">
+                <div className="text-center max-w-md">
+                  <div className="rounded-full bg-red-50 p-4 w-16 h-16 mx-auto mb-4">
+                    <svg
+                      className="h-8 w-8 text-red-500"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                  </div>
+                  <h3 className="text-lg font-medium text-gray-900 mb-2">
+                    Error al cargar datos
+                  </h3>
+                  <p className="text-gray-600">{error}</p>
+                  <button
+                    onClick={() => window.location.reload()}
+                    className="mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-emerald-600 hover:bg-emerald-700"
+                  >
+                    Reintentar
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <BirthdayManager
+                clients={clients}
+                initialMonth={selectedMonthIndex}
+                onMonthChange={handleBirthdayManagerMonthChange}
+              />
             )}
-          </motion.div>
+          </div>
         </div>
       </div>
     </div>
-  )
+  );
 }
-
-export default BirthdaysPage 

@@ -9,7 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Building2, ChevronDown, Search } from 'lucide-react';
+import { Building2, Search } from 'lucide-react';
 import type { ProductFiltersProps } from '../types';
 
 export function ProductFilters({ filters, warehouses, onFilterChange }: ProductFiltersProps) {
@@ -39,7 +39,6 @@ export function ProductFilters({ filters, warehouses, onFilterChange }: ProductF
             <Building2 className="h-4 w-4 text-emerald-500 group-hover:text-emerald-600 transition-colors" />
             <SelectValue placeholder="Select Warehouse" />
           </div>
-          <ChevronDown className="h-4 w-4 text-emerald-500 group-hover:text-emerald-600 transition-colors" />
         </SelectTrigger>
         <SelectContent className="bg-white border border-emerald-100 shadow-lg rounded-lg min-w-[220px]">
           <SelectGroup>
@@ -50,10 +49,7 @@ export function ProductFilters({ filters, warehouses, onFilterChange }: ProductF
               value="all"
               className="hover:bg-emerald-50 focus:bg-emerald-50 focus:text-emerald-700 cursor-pointer transition-colors"
             >
-              <div className="flex items-center gap-2">
-                <Building2 className="h-4 w-4 text-emerald-500" />
-                All Warehouses
-              </div>
+              All Warehouses
             </SelectItem>
             {warehouses.map((warehouse) => (
               <SelectItem 
@@ -61,10 +57,7 @@ export function ProductFilters({ filters, warehouses, onFilterChange }: ProductF
                 value={warehouse.id}
                 className="hover:bg-emerald-50 focus:bg-emerald-50 focus:text-emerald-700 cursor-pointer transition-colors"
               >
-                <div className="flex items-center gap-2">
-                  <Building2 className="h-4 w-4 text-emerald-500" />
-                  {warehouse.name}
-                </div>
+                {warehouse.name}
               </SelectItem>
             ))}
           </SelectGroup>

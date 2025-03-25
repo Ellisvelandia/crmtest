@@ -40,14 +40,14 @@ export function ProductForm({
         <div className="space-y-2">
           <Label htmlFor="product-name" className="text-sm font-medium text-gray-700 flex items-center gap-2">
             <Tag className="h-4 w-4 text-emerald-500" />
-            Product Name
+            Nombre del Producto
           </Label>
           <Input
             id="product-name"
             value={formData.name}
             onChange={(e) => onChange('name', e.target.value)}
             required
-            placeholder="Enter product name"
+            placeholder="Ingrese el nombre del producto"
             className="border-emerald-200 focus:border-emerald-500 focus:ring-emerald-500 transition-colors"
           />
         </div>
@@ -62,7 +62,7 @@ export function ProductForm({
             value={formData.sku}
             onChange={(e) => onChange('sku', e.target.value)}
             required
-            placeholder="Enter SKU"
+            placeholder="Ingrese SKU"
             className="border-emerald-200 focus:border-emerald-500 focus:ring-emerald-500 transition-colors"
           />
         </div>
@@ -71,7 +71,7 @@ export function ProductForm({
           <div className="space-y-2">
             <Label htmlFor="product-price-usd" className="text-sm font-medium text-gray-700 flex items-center gap-2">
               <DollarSign className="h-4 w-4 text-emerald-500" />
-              Price (USD)
+              Precio (USD)
             </Label>
             <Input
               id="product-price-usd"
@@ -88,7 +88,7 @@ export function ProductForm({
           <div className="space-y-2">
             <Label htmlFor="product-price-mxn" className="text-sm font-medium text-gray-700 flex items-center gap-2">
               <DollarSign className="h-4 w-4 text-emerald-500" />
-              Price (MXN)
+              Precio (MXN)
             </Label>
             <Input
               id="product-price-mxn"
@@ -116,16 +116,16 @@ export function ProductForm({
           >
             <SelectTrigger 
               className="border-emerald-200 hover:border-emerald-300 focus:border-emerald-500 focus:ring-emerald-500 group transition-colors"
-              aria-label="Select material"
+              aria-label="Seleccionar material"
             >
-              <SelectValue placeholder="Select material" />
+              <SelectValue placeholder="Seleccionar material" />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectItem value="gold">Gold</SelectItem>
-                <SelectItem value="silver">Silver</SelectItem>
-                <SelectItem value="platinum">Platinum</SelectItem>
-                <SelectItem value="other">Other</SelectItem>
+                <SelectItem value="gold">Oro</SelectItem>
+                <SelectItem value="silver">Plata</SelectItem>
+                <SelectItem value="platinum">Platino</SelectItem>
+                <SelectItem value="other">Otro</SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>
@@ -134,13 +134,13 @@ export function ProductForm({
         <div className="space-y-2">
           <Label htmlFor="product-purity" className="text-sm font-medium text-gray-700 flex items-center gap-2">
             <Diamond className="h-4 w-4 text-emerald-500" />
-            Purity
+            Pureza
           </Label>
           <Input
             id="product-purity"
             value={formData.purity}
             onChange={(e) => onChange('purity', e.target.value)}
-            placeholder="e.g., 14K, 18K, .925"
+            placeholder="ej., 14K, 18K, .925"
             className="border-emerald-200 focus:border-emerald-500 focus:ring-emerald-500 transition-colors"
           />
         </div>
@@ -148,7 +148,7 @@ export function ProductForm({
         <div className="space-y-2">
           <Label htmlFor="product-weight" className="text-sm font-medium text-gray-700 flex items-center gap-2">
             <Scale className="h-4 w-4 text-emerald-500" />
-            Weight (g)
+            Peso (g)
           </Label>
           <Input
             id="product-weight"
@@ -164,14 +164,14 @@ export function ProductForm({
         <div className="space-y-2">
           <Label htmlFor="product-description" className="text-sm font-medium text-gray-700 flex items-center gap-2">
             <Tag className="h-4 w-4 text-emerald-500" />
-            Description
+            Descripción
           </Label>
           <Textarea
             id="product-description"
             value={formData.description}
             onChange={(e) => onChange('description', e.target.value)}
             required
-            placeholder="Enter product description"
+            placeholder="Ingrese la descripción del producto"
             className="min-h-[120px] border-emerald-200 focus:border-emerald-500 focus:ring-emerald-500 transition-colors"
           />
         </div>

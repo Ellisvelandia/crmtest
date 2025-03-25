@@ -4,7 +4,7 @@ import type { ProductCardProps } from '../types';
 
 export function ProductCard({ product, onClick }: ProductCardProps) {
   const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('en-US', {
+    return new Intl.NumberFormat('es-MX', {
       style: 'currency',
       currency: 'USD',
     }).format(price);
@@ -34,7 +34,7 @@ export function ProductCard({ product, onClick }: ProductCardProps) {
               ? 'bg-emerald-100/90 text-emerald-700'
               : 'bg-red-100/90 text-red-700'
           }`}>
-            {product.quantity > 0 ? 'In Stock' : 'Out of Stock'}
+            {product.quantity > 0 ? 'En Existencia' : 'Agotado'}
           </div>
         )}
       </div>

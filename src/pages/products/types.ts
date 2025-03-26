@@ -1,21 +1,21 @@
 export interface Product {
   id: string;
-  name: string;
-  sku: string;
-  description: string;
-  price_usd: number;
-  price_mxn: number;
-  category: string;
-  brand: string;
-  material: string;
-  purity: string;
-  weight: number;
-  is_active: boolean;
+  name: string;           // Nombre del producto
+  sku: string;           // SKU del producto
+  description: string;    // Descripción del producto
+  price_usd: number;     // Precio en USD
+  price_mxn: number;     // Precio en MXN
+  material: string;      // Material (Oro, Plata, Platino, Otro)
+  purity: string;        // Pureza (ej., 14K, 18K, .925)
+  weight: string;        // Peso en gramos
+  category: string;      // Categoría del producto
+  brand?: string;        // Marca del producto
+  quantity?: number;     // Cantidad en inventario
   metadata: {
-    images?: string[];
-    specifications?: Record<string, any>;
+    images: string[];    // URLs de las imágenes
   };
-  quantity?: number;
+  created_at: string;    // Fecha de creación
+  updated_at: string;    // Fecha de actualización
 }
 
 export interface ProductFormData {
@@ -24,26 +24,24 @@ export interface ProductFormData {
   description: string;
   price_usd: string;
   price_mxn: string;
-  category: string;
-  brand: string;
   material: string;
   purity: string;
   weight: string;
+  category: string;
   metadata: {
     images: string[];
-    specifications: Record<string, any>;
   };
 }
 
 export interface ProductFilters {
-  searchQuery: string;
-  warehouse: string;
+  searchQuery: string;   // Término de búsqueda
+  warehouse: string;     // ID del almacén
 }
 
 export interface ProductListProps {
   products: Product[];
   loading: boolean;
-  onProductClick: (productId: string) => void;
+  onProductClick: (id: string) => void;
 }
 
 export interface ProductCardProps {
@@ -60,10 +58,11 @@ export interface ProductHeaderProps {
 export interface ProductFiltersProps {
   filters: ProductFilters;
   warehouses: Warehouse[];
-  onFilterChange: (filters: Partial<ProductFilters>) => void;
+  onFilterChange: (updates: Partial<ProductFilters>) => void;
 }
 
 export interface Warehouse {
   id: string;
-  name: string;
+  name: string;         // Nombre del almacén
+  location: string;     // Ubicación del almacén
 } 

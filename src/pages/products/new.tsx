@@ -1,18 +1,86 @@
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { ArrowLeft, Package2, Loader2 } from 'lucide-react'
-import { useProductForm } from './hooks/useProductForm'
 import { ProductForm } from './components/ProductForm'
+import { useImageStorage } from './hooks/useImageStorage'
+import { supabase } from '@/lib/supabase'
+import type { ProductFormData } from './types'
 
 export default function NewProductPage() {
   const navigate = useNavigate()
-  const { formData, loading, handleChange, handleImageUpload, removeImage, handleSubmit } = useProductForm()
+  const { loading: imageLoading } = useImageStorage()
+  const [loading, setLoading] = useState(false)
+  const [formData, setFormData] = useState<ProductFormData>({
+    name: '',
+    sku: '',
+    description: '',
+    price_usd: '',
+    price_mxn: '',
+    material: '',
+    purity: '',
+    weight: '',
+    category: '',
+    metadata: {
+      images: []
+    }
+  })
 
-  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleChange = (field: keyof ProductFormData, value: string | string[]) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }))
+  }
+
+  const handleImageUpload = (paths: string[]) => {
+    setFormData(prev => ({
+      ...prev,
+      metadata: {
+        ...prev.metadata,
+        images: [...prev.metadata.images, ...paths]
+      }
+    }))
+  }
+
+  const handleImageRemove = (index: number) => {
+    setFormData(prev => ({
+      ...prev,
+      metadata: {
+        ...prev.metadata,
+        images: prev.metadata.images.filter((_, i) => i !== index)
+      }
+    }))
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    const success = await handleSubmit()
-    if (success) {
+    setLoading(true)
+
+    try {
+      const { error } = await supabase.from('products').insert({
+        name: formData.name,
+        sku: formData.sku,
+        description: formData.description,
+        price_usd: parseFloat(formData.price_usd),
+        price_mxn: parseFloat(formData.price_mxn),
+        material: formData.material,
+        purity: formData.purity,
+        weight: formData.weight,
+        category: formData.category,
+        metadata: {
+          images: formData.metadata.images // Store image paths
+        }
+      })
+
+      if (error) throw error
+
       navigate('/products')
+    } catch (error) {
+      console.error('Error creating product:', error)
+      // Here you might want to show an error message to the user
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -43,23 +111,22 @@ export default function NewProductPage() {
             <p className="mt-1 text-sm text-emerald-600">Complete los detalles a continuación para crear un nuevo producto</p>
           </div>
 
-          <form onSubmit={onSubmit} className="p-6 space-y-8">
+          <form onSubmit={handleSubmit} className="p-6 space-y-8">
             <ProductForm
               formData={formData}
-              loading={loading}
               onChange={handleChange}
               onImageUpload={handleImageUpload}
-              onImageRemove={removeImage}
+              onImageRemove={handleImageRemove}
             />
 
             <div className="flex justify-end pt-6 border-t border-gray-100">
               <Button
                 type="submit"
-                disabled={loading}
-                className="bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm transition-all duration-200 hover:shadow flex items-center gap-2"
+                disabled={loading || imageLoading}
+                className={`bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm transition-all duration-200 hover:shadow flex items-center gap-2
+                  ${(loading || imageLoading) ? 'opacity-50 cursor-not-allowed' : ''}`}
               >
-                {loading && <Loader2 className="h-4 w-4 animate-spin" />}
-                {loading ? 'Creando Producto...' : 'Crear Producto'}
+                {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Crear Producto'}
               </Button>
             </div>
           </form>

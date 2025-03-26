@@ -15,15 +15,13 @@ import type { ProductFormData } from '../types';
 
 interface ProductFormProps {
   formData: ProductFormData;
-  loading: boolean;
-  onChange: (field: keyof ProductFormData, value: string) => void;
-  onImageUpload: (files: FileList | null) => void;
+  onChange: (field: keyof ProductFormData, value: string | string[]) => void;
+  onImageUpload: (paths: string[]) => void;
   onImageRemove: (index: number) => void;
 }
 
 export function ProductForm({
   formData,
-  loading,
   onChange,
   onImageUpload,
   onImageRemove
@@ -32,7 +30,8 @@ export function ProductForm({
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
       <div className="space-y-6">
         <ImageUploader
-          images={formData.metadata.images}
+          imagePaths={formData.metadata.images}
+          sku={formData.sku}
           onUpload={onImageUpload}
           onRemove={onImageRemove}
         />

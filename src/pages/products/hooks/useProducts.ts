@@ -1,6 +1,6 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
-import { getProducts } from '@/lib/api/products';
+import { supabase } from '@/lib/supabase';
 import type { Product, Warehouse, ProductFilters } from '../types';
 
 export function useProducts() {
@@ -13,25 +13,53 @@ export function useProducts() {
     warehouse: 'all'
   });
 
-  const loadProducts = useCallback(async () => {
+  useEffect(() => {
+    fetchProducts();
+    fetchWarehouses();
+  }, []);
+
+  const fetchProducts = async () => {
     try {
       setLoading(true);
-      const data = await getProducts(
-        filters.warehouse === 'all' ? undefined : filters.warehouse
-      );
-      setProducts(data.products || []);
-      setWarehouses(data.warehouses || []);
+      
+      if (filters.searchQuery) {
+        // Use the custom search function for Spanish text
+        const { data, error } = await supabase
+          .rpc('search_products', { search_term: filters.searchQuery });
+        
+        if (error) throw error;
+        setProducts(data || []);
+      } else {
+        // Regular query without search
+        const { data, error } = await supabase
+          .from('products')
+          .select('*')
+          .order('created_at', { ascending: false });
+        
+        if (error) throw error;
+        setProducts(data || []);
+      }
     } catch (error) {
-      console.error('Error loading products:', error);
+      console.error('Error fetching products:', error);
       toast.error('Failed to load products');
     } finally {
       setLoading(false);
     }
-  }, [filters.warehouse]);
+  };
 
-  useEffect(() => {
-    loadProducts();
-  }, [loadProducts]);
+  const fetchWarehouses = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('warehouses')
+        .select('*')
+        .order('name');
+      
+      if (error) throw error;
+      setWarehouses(data || []);
+    } catch (error) {
+      console.error('Error fetching warehouses:', error);
+    }
+  };
 
   useEffect(() => {
     const filtered = products.filter(product => 
@@ -43,9 +71,12 @@ export function useProducts() {
     setFilteredProducts(filtered);
   }, [filters.searchQuery, products]);
 
-  const updateFilters = useCallback((newFilters: Partial<ProductFilters>) => {
-    setFilters(prev => ({ ...prev, ...newFilters }));
-  }, []);
+  const updateFilters = (updates: Partial<ProductFilters>) => {
+    setFilters(prev => ({ ...prev, ...updates }));
+    if ('searchQuery' in updates) {
+      fetchProducts();
+    }
+  };
 
   return {
     products,
@@ -54,6 +85,6 @@ export function useProducts() {
     loading,
     filters,
     updateFilters,
-    refresh: loadProducts
+    refresh: fetchProducts
   };
 } 

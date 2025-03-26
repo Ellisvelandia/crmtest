@@ -1,8 +1,32 @@
 import { Card } from '@/components/ui/card';
 import { Package2, Filter } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { supabase } from '@/lib/supabase';
 import type { ProductCardProps } from '../types';
 
 export function ProductCard({ product, onClick }: ProductCardProps) {
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    const getImageUrl = async () => {
+      if (product.metadata?.images?.[0]) {
+        try {
+          const { data } = await supabase.storage
+            .from('product-images')
+            .getPublicUrl(product.metadata.images[0]);
+          
+          if (data?.publicUrl) {
+            setImageUrl(data.publicUrl);
+          }
+        } catch (error) {
+          console.error('Error getting image URL:', error);
+        }
+      }
+    };
+
+    getImageUrl();
+  }, [product.metadata?.images]);
+
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('es-MX', {
       style: 'currency',
@@ -16,9 +40,9 @@ export function ProductCard({ product, onClick }: ProductCardProps) {
       onClick={onClick}
     >
       <div className="aspect-[4/3] relative overflow-hidden bg-emerald-50/50">
-        {product.metadata?.images?.[0] ? (
+        {imageUrl ? (
           <img
-            src={product.metadata.images[0]}
+            src={imageUrl}
             alt={product.name}
             className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500 ease-out"
             loading="lazy"
@@ -38,7 +62,7 @@ export function ProductCard({ product, onClick }: ProductCardProps) {
           </div>
         )}
       </div>
-      <div className="p-6 space-y-4">
+      <div className="p-4 space-y-4">
         <div className="space-y-2">
           <div className="flex items-start justify-between gap-2">
             <h3 className="font-semibold text-lg text-gray-900 line-clamp-1 group-hover:text-emerald-700 transition-colors">
